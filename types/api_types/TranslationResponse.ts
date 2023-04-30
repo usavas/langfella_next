@@ -1,0 +1,3 @@
+type TranslationResponse = {
+  translatedText: string;
+};
