@@ -13,7 +13,7 @@ const Popup = (props: Props) => {
   useEffect(() => {
     const getTranslation = async () => {
       const apiUrl =
-        "/api/translation?word=" +
+        "/api/getTranslation?word=" +
         props.word +
         "&source=" +
         "es" +
