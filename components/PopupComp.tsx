@@ -13,7 +13,7 @@ const Popup = (props: Props) => {
   useEffect(() => {
     const getTranslation = async () => {
       const apiUrl =
-        "/api/getTranslation?word=" +
+        "/api/translations?word=" +
         props.word +
         "&source=" +
         "es" +
@@ -21,7 +21,7 @@ const Popup = (props: Props) => {
         "en";
 
       try {
-        const result = await fetch(apiUrl);
+        const result = await fetch(apiUrl, { method: "GET" });
         const translation = await result.json();
         setTranslation(translation.translatedText);
       } catch (error) {
