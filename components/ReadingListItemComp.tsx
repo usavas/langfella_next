@@ -15,13 +15,13 @@ function ReadingListItemComp(props: Props) {
 
   return (
     <div
-      className="bg-gray-200 px-2 py-2 rounded-md flex-shrink-0 w-40"
+      className="bg-gray-200 px-2 py-2 rounded-md flex-shrink-0 w-40 cursor-pointer hover:bg-opacity-60"
       onClick={handleRoute}
     >
-      <p>{reading.title}</p>
+      <p className="text-base font-normal">{reading.title}</p>
       <p className="text-xs font-extralight line-clamp-2">{reading.text[0]}</p>
-      <p className="text-xs font-light">10 words</p>
-      <p className="text-xs font-light">10 unknown</p>
+      <span className="text-sm font-light mt-2">10 words</span>
+      <span className="text-sm font-light block">10 unknown</span>
     </div>
   );
 }
