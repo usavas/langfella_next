@@ -1,10 +1,12 @@
 import { useState } from "react";
 
-function ImportContent() {
+function ImportTextContentComp() {
   const [source, setSource] = useState("");
+  const [label, setLabel] = useState({ content: "", ok: false });
+
   return (
     <div>
-      <h6>Import Content</h6>
+      <h6>Import Text Content</h6>
       <div className="input-group flex flex-col gap-2">
         <input
           id="source"
@@ -14,6 +16,11 @@ function ImportContent() {
         <button className="btn-primary" onClick={importContent}>
           Import
         </button>
+        <label
+          className={"text-sm " + (label.ok ? "text-gray-900" : "text-red-600")}
+        >
+          {label.content}
+        </label>
       </div>
     </div>
   );
@@ -33,11 +40,12 @@ function ImportContent() {
       return;
     }
 
-    const response = await fetch("/api/fetchHtml?url=" + source);
-    const data = await response.json();
+    //TODO import text content
+
+    //TODO set label text based on success status
 
     //TODO add to readings
   }
 }
 
-export default ImportContent;
+export default ImportTextContentComp;

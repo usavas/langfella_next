@@ -7,7 +7,12 @@ const fetchHtml = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto(url as string);
+
+  try {
+    await page.goto(url as string);
+  } catch (error) {
+    throw error;
+  }
 
   const pageTitle = await page.title();
   const pageUrl = page.url();
