@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ReadingGroup {
+  id         String    @id @default(uuid())
+  language   Language  @relation(fields: [languageId], references: [id])
+  languageId Int
+  title      String
+  authors    Author[]
+  Reading    Reading[]
+}
+
+model Reading {
+  id             Int           @id @default(autoincrement())
+  language       Language      @relation(fields: [languageId], references: [id])
+  languageId     Int
+  title          String
+  authors        Author[]
+  source         String?
+  readingGroup   ReadingGroup? @relation(fields: [readingGroupId], references: [id])
+  readingGroupId String?
+  wordIds        Int[]         @default([])
+  Word           Word[]
+}
+
+model Language {
+  id           Int            @id @default(autoincrement())
+  code         String         @unique
+  name         String
+  readings     Reading[]
+  ReadingGroup ReadingGroup[]
+  WordSource   Word[]         @relation("sourceLanguage")
+  WordTarget   Word[]         @relation("targetLanguage")
+}
+
+model Author {
+  id            Int            @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  Readings      Reading[]
+  ReadingGroups ReadingGroup[]
+}
+
+model Word {
+  id               Int      @id @default(autoincrement())
+  text             String
+  translation      String[] @default([])
+  sourceLanguage   Language @relation("sourceLanguage", fields: [sourceLangId], references: [id])
+  sourceLangId     Int
+  targetLanguage   Language @relation("targetLanguage", fields: [targetLangId], references: [id])
+  targetLangId     Int
+  exampleSentences String[] @default([])
+  reading          Reading? @relation(fields: [readingId], references: [id])
+  readingId        Int?
+}
