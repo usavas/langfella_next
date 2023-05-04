@@ -54,6 +54,7 @@ model Word {
   id               Int      @id @default(autoincrement())
   text             String
   translation      String[] @default([])
+  status           String
   sourceLanguage   Language @relation("sourceLanguage", fields: [sourceLangId], references: [id])
   sourceLangId     Int
   targetLanguage   Language @relation("targetLanguage", fields: [targetLangId], references: [id])

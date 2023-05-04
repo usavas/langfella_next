@@ -6,11 +6,15 @@ function ImportWebContentComp() {
   const [label, setLabel] = useState({ content: "", ok: false });
 
   useEffect(() => {
-    navigator.clipboard.readText().then((text) => {
-      if (text.startsWith("http")) {
-        setClipBoardContent(text);
-      }
-    });
+    try {
+      navigator.clipboard.readText().then((text) => {
+        if (text.startsWith("http")) {
+          setClipBoardContent(text);
+        }
+      });
+    } catch (error) {
+      console.log("cannot access to clipboard content " + error);
+    }
   }, []);
 
   return (
