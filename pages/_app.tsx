@@ -2,6 +2,7 @@ import Head from "next/head";
 import { AppProps } from "next/app";
 import "../styles/global.css";
 import "../styles/style.css";
+import BottomNavigation from "../components/BottomNavigation";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -33,7 +34,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <link rel="apple-touch-icon" href="/apple-icon.png"></link>
         <meta name="theme-color" content="#317EFB" />
       </Head>
-      <Component {...pageProps} />
+      <div className="mb-24">
+        <Component {...pageProps} />
+      </div>
+      <BottomNavigation></BottomNavigation>
     </>
   );
 }

@@ -10,8 +10,6 @@ type WordWLangs = Word & {
 };
 
 const Words = ({ words }: { words: WordWLangs[] }) => {
-  console.log(words); // status is not retrieved from db prisma client update'e ragmen
-
   return (
     <div className="m-4 ">
       <ul className=" divide-y divide-gray-200">
@@ -21,7 +19,6 @@ const Words = ({ words }: { words: WordWLangs[] }) => {
           </li>
         ))}
       </ul>
-      <BottomNavigation></BottomNavigation>
     </div>
   );
 };
@@ -33,8 +30,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       targetLanguage: { select: { name: true, code: true } },
     },
   });
-
-  console.log(words);
 
   return {
     props: { words },

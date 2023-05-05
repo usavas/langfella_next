@@ -2,7 +2,10 @@ import { Word } from "@prisma/client";
 
 function WordComp({ word }: { word: Word }) {
   return (
-    <div className="flex items-center justify-between gap-2 space-x-4">
+    <div
+      className="flex items-center justify-between gap-2 space-x-4 cursor-pointer"
+      onClick={openWordView}
+    >
       <div className="flex-1">
         <p className="text-base font-medium text-gray-700 truncate">
           {word.text}
@@ -19,6 +22,9 @@ function WordComp({ word }: { word: Word }) {
       </div>
     </div>
   );
+
+  //TODO open a popup or navigate to window of the word details
+  function openWordView(e: any) {}
 }
 
 export default WordComp;

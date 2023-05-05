@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="mx-4 my-4">
-      <main className="mb-24">
+      <main className="">
         <h1>LangFella</h1>
         <Link
           href="/importcontent"
@@ -21,8 +21,6 @@ export default function Home() {
         <h3>Readings</h3>
         <ReadingListComp readings={getAllReadings()}></ReadingListComp>
       </main>
-
-      <BottomNavigation></BottomNavigation>
     </div>
   );
 }
