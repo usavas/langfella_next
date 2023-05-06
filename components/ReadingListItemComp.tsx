@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
-import ReadingType from "../types/ReadingType";
+import ReadingWAuthorAndLang from "../types/ReadingWAuthorsAndLanguage";
 
 type Props = {
-  reading: ReadingType;
+  reading: ReadingWAuthorAndLang;
 };
 
 function ReadingListItemComp(props: Props) {
@@ -19,7 +19,9 @@ function ReadingListItemComp(props: Props) {
       onClick={handleRoute}
     >
       <p className="text-base font-normal">{reading.title}</p>
-      <p className="text-xs font-extralight line-clamp-2">{reading.text[0]}</p>
+      <p className="text-xs font-extralight line-clamp-2">
+        {reading.contents[0]}
+      </p>
       <span className="text-sm font-light mt-2">10 words</span>
       <span className="text-sm font-light block">10 unknown</span>
     </div>

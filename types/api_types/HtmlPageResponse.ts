@@ -22,3 +22,5 @@ type HtmlPage = {
     content: string;
   }[];
 };
+
+export default HtmlPage;

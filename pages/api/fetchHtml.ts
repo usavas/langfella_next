@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from "next";
 import puppeteer, { ElementHandle, Page } from "puppeteer";
+import HtmlPage from "../../types/api_types/HtmlPageResponse";
 
 const fetchHtml = async (req: NextApiRequest, res: NextApiResponse) => {
   const { url } = req.query;

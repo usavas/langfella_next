@@ -1,5 +1,4 @@
 import { GetServerSideProps } from "next";
-import BottomNavigation from "../components/BottomNavigation";
 import prisma from "../lib/prisma";
 import { Word } from "@prisma/client";
 import WordComp from "../components/WordComp";

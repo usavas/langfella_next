@@ -1,6 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
+import prisma from "../../lib/prisma";
+import HtmlPage from "../../types/api_types/HtmlPageResponse";
+import { Reading } from "@prisma/client";
 
 const getWordTranslation = async (
   req: NextApiRequest,
@@ -21,16 +23,18 @@ const getWordTranslation = async (
 async function handleGetRequest(req: NextApiRequest, res: NextApiResponse) {}
 
 async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
-  //TODO handle request
-  const readingBody = req.body;
+  const htmlPage = req.body as HtmlPage;
 
-  const response = await axios.post(
-    "http://localhost:5000/readings",
-    readingBody
-  );
+  const savedPage = await prisma.reading.create({
+    data: {
+      title: htmlPage.headLine ?? htmlPage.title ?? "",
+      contents: [""],
+      source: htmlPage.pageUrl,
+      language: { connect: { id: 1 } },
+    },
+  });
 
-  const result = await response.data;
-  res.status(200).json(result);
+  res.status(200).json(savedPage);
 }
 
 export default getWordTranslation;

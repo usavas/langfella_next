@@ -1,8 +1,8 @@
 import ReadingListItemComp from "./ReadingListItemComp";
-import ReadingType from "../types/ReadingType";
+import ReadingWAuthorAndLang from "../types/ReadingWAuthorsAndLanguage";
 
 type Props = {
-  readings: ReadingType[];
+  readings: ReadingWAuthorAndLang[];
 };
 
 function ReadingList(props: Props) {

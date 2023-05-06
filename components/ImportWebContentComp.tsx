@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import prisma from "../lib/prisma";
+import HtmlPageResponse from "../types/api_types/HtmlPageResponse";
 
 function ImportWebContentComp() {
   const [source, setSource] = useState("");
   const [clipBoardContent, setClipBoardContent] = useState("");
-  const [label, setLabel] = useState({ content: "", ok: false });
+  const [label, setLabel] = useState({ text: "", ok: false });
 
   useEffect(() => {
     try {
@@ -41,7 +43,7 @@ function ImportWebContentComp() {
         <label
           className={"text-sm " + (label.ok ? "text-gray-900" : "text-red-600")}
         >
-          {label.content}
+          {label.text}
         </label>
       </div>
     </div>
@@ -66,16 +68,27 @@ function ImportWebContentComp() {
       return;
     }
 
+    let htmlPage: HtmlPageResponse;
+
     try {
       const response = await fetch("/api/fetchHtml?url=" + source);
-      const data = await response.json();
+      htmlPage = (await response.json()) as HtmlPageResponse;
 
-      setLabel({ content: "Website content imported", ok: true });
+      setLabel({ text: "Website content imported", ok: true });
     } catch (error) {
-      setLabel({ content: "Content could not be imported", ok: false });
+      setLabel({ text: "Content could not be imported", ok: false });
+      return;
     }
 
     //TODO add to readings
+    prisma.reading.create({
+      data: {
+        title: htmlPage.headLine ?? htmlPage.title ?? "",
+        contents: [""],
+        source: htmlPage.pageUrl,
+        language: { connect: { id: 1 } },
+      },
+    });
   }
 }
 

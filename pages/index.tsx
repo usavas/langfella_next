@@ -1,9 +1,14 @@
+import { GetServerSideProps } from "next";
 import ReadingListComp from "../components/ReadingListComp";
-import BottomNavigation from "../components/BottomNavigation";
-import { getAllReadings } from "../fakedata/reading_contents";
 import Link from "next/link";
+import prisma from "../lib/prisma";
+import ReadingWAuthorAndLang from "../types/ReadingWAuthorsAndLanguage";
 
-export default function Home() {
+type PropsType = {
+  props: { readings: ReadingWAuthorAndLang[] };
+};
+
+const Home = ({ readings }: { readings: ReadingWAuthorAndLang[] }) => {
   return (
     <div className="mx-4 my-4">
       <main className="">
@@ -15,12 +20,20 @@ export default function Home() {
           Import Content
         </Link>
         <h3>Readings</h3>
-        <ReadingListComp readings={getAllReadings()}></ReadingListComp>
-        <h3>Readings</h3>
-        <ReadingListComp readings={getAllReadings()}></ReadingListComp>
-        <h3>Readings</h3>
-        <ReadingListComp readings={getAllReadings()}></ReadingListComp>
+        <ReadingListComp readings={readings}></ReadingListComp>
       </main>
     </div>
   );
-}
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const readings = await prisma.reading.findMany({
+    include: {
+      authors: { select: { firstName: true, lastName: true } },
+      language: { select: { code: true, name: true } },
+    },
+  });
+  return { props: { readings } };
+};
+
+export default Home;
