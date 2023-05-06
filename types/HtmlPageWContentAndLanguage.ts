@@ -1,5 +1,7 @@
 import { HtmlContentItem, HtmlPage, Language } from "@prisma/client";
 
-type HtmlPageWContentAndLanguage = HtmlPage & Language & HtmlContentItem;
+type HtmlPageWContentAndLanguage = HtmlPage & { language: Language } & {
+  contents: HtmlContentItem[];
+};
 
 export default HtmlPageWContentAndLanguage;

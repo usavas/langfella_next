@@ -10,14 +10,11 @@ function ReadingListItemComp(props: Props) {
   const router = useRouter();
 
   function handleRoute(event: any): void {
-    router.push("readingcontent/" + reading.id);
+    router.push("reading/" + reading.id);
   }
 
   return (
-    <div
-      className="bg-gray-200 px-2 py-2 rounded-md flex-shrink-0 w-40 cursor-pointer hover:bg-opacity-60"
-      onClick={handleRoute}
-    >
+    <div className="card" onClick={handleRoute}>
       <p className="text-base font-normal">{reading.title}</p>
       <p className="text-xs font-extralight line-clamp-2">
         {reading.contents[0]}

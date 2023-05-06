@@ -36,6 +36,9 @@
   .btn-primary-red {
     @apply py-2 px-4 bg-red-500 text-white font-semibold rounded-md shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75;
   }
+  .card {
+    @apply bg-gray-200 px-4 py-4 rounded-md flex-shrink-0 w-60 cursor-pointer hover:bg-opacity-60;
+  }
 
   .word {
     @apply text-lg mb-8 leading-9 text-gray-700;
