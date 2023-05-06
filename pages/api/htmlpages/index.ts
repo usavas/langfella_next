@@ -28,7 +28,7 @@ async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
   prisma.htmlPage
     .create({
       data: {
-        title: htmlPage.title ?? "",
+        pageTitle: htmlPage.pageTitle ?? "",
         headline: htmlPage.headline ?? "",
         contents: { createMany: { data: htmlPage.elements } },
         uri: htmlPage.pageUrl,

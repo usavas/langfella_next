@@ -64,7 +64,7 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
           close={handleClose}
         ></TranslationPopupComp>
       )}
-      <h1>{webPage.title}</h1>
+      <h1>{webPage.headline ?? webPage.pageTitle}</h1>
       {firstImgComp && firstImgComp}
       {renderText}
     </div>

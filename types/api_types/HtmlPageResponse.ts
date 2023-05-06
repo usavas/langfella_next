@@ -5,7 +5,7 @@ type HtmlPage = {
   /**
    * page title (in the address bar)
    */
-  title?: string;
+  pageTitle?: string;
   /**
    * first h1 in the page, news title
    */

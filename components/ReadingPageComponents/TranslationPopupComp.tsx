@@ -1,3 +1,11 @@
+//TODO need the following variables to save the word to Database
+/**
+ * reading or html page id
+ * source language id
+ * target language Id
+ */
+
+import { Word, Prisma } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -6,7 +14,7 @@ type Props = {
 };
 
 const TranslationPopupComp = (props: Props) => {
-  const { close } = props;
+  const { close, word } = props;
 
   const [translation, setTranslation] = useState<string>("");
 
@@ -52,7 +60,10 @@ const TranslationPopupComp = (props: Props) => {
             <span>{translation || "getting translation..."}</span>
           </p>
           <div className="flex flex-row gap-2">
-            <button className="bg-gray-500 text-white px-2 py-2 rounded-md flex-grow">
+            <button
+              className="bg-gray-500 text-white px-2 py-2 rounded-md flex-grow"
+              onClick={saveWord}
+            >
               Save Word
             </button>
             <button
@@ -66,6 +77,35 @@ const TranslationPopupComp = (props: Props) => {
       </div>
     </div>
   );
+
+  async function saveWord(e: any) {
+    e.stopPropagation();
+    // save to db props.word;
+
+    if (!translation || !props.word) {
+      alert("cannot save without word or translation provided");
+      return;
+    }
+
+    const word: Prisma.WordCreateArgs["data"] = {
+      text: props.word,
+      translation: [translation],
+      htmlPageId: 1,
+      readingId: 1,
+      sourceLangId: 1,
+      targetLangId: 2,
+      status: "1", // default status is 1. (means not familiar with this newly added word)
+      // exampleSentences: [""],
+    };
+
+    await fetch("/api/words", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(word),
+    });
+
+    close();
+  }
 
   function handleInsideClick(e: any) {
     e.stopPropagation();

@@ -37,7 +37,7 @@ model HtmlPage {
   id         Int               @id @default(autoincrement())
   language   Language          @relation(fields: [languageId], references: [id])
   languageId Int
-  title      String
+  pageTitle  String            @map("title")
   headline   String
   uri        String
   contents   HtmlContentItem[]

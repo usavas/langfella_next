@@ -8,7 +8,7 @@ type PropTypes = {
 
 function ImportedWebPagesComp({ webPages }: PropTypes) {
   return (
-    <div>
+    <div className="flex flex-row gap-2 overflow-x-auto scrollbar-none scrollbar-hide">
       {webPages.map((p) => (
         <WebPageListItemComp key={p.id} webPage={p} />
       ))}

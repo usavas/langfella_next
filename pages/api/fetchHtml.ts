@@ -59,7 +59,7 @@ const fetchHtml = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const result: HtmlPageResponse = {
     pageUrl: pageUrl,
-    title: pageTitle,
+    pageTitle: pageTitle,
     headline: contentArray.find((c) => c.type === "h1")?.content ?? "",
     elements: contentArray,
   };
