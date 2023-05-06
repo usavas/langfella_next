@@ -1,4 +1,6 @@
+import { HtmlPage } from "@prisma/client";
 import { useEffect, useState } from "react";
+import { PrismaClient } from "@prisma/client";
 import prisma from "../lib/prisma";
 import HtmlPageResponse from "../types/api_types/HtmlPageResponse";
 
@@ -37,7 +39,7 @@ function ImportWebContentComp() {
             {clipBoardContent}
           </button>
         )}
-        <button className="btn-primary" onClick={importContent}>
+        <button className="btn-primary" onClick={importWebContent}>
           Import
         </button>
         <label
@@ -63,32 +65,29 @@ function ImportWebContentComp() {
     }
   }
 
-  async function importContent(e: any) {
+  async function importWebContent(e: any) {
     if (!source || !source.startsWith("http")) {
       return;
     }
 
-    let htmlPage: HtmlPageResponse;
-
     try {
-      const response = await fetch("/api/fetchHtml?url=" + source);
-      htmlPage = (await response.json()) as HtmlPageResponse;
+      const response = await fetch(
+        "/api/fetchHtml?url=" + encodeURIComponent(source)
+      );
+      const htmlPage = (await response.json()) as HtmlPageResponse;
+
+      console.log(htmlPage);
+
+      const postResult = await fetch("/api/htmlpages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(htmlPage),
+      });
 
       setLabel({ text: "Website content imported", ok: true });
     } catch (error) {
       setLabel({ text: "Content could not be imported", ok: false });
-      return;
     }
-
-    //TODO add to readings
-    prisma.reading.create({
-      data: {
-        title: htmlPage.headLine ?? htmlPage.title ?? "",
-        contents: [""],
-        source: htmlPage.pageUrl,
-        language: { connect: { id: 1 } },
-      },
-    });
   }
 }
 

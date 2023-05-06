@@ -1,3 +1,5 @@
+import { HtmlItemType } from "@prisma/client";
+
 type HtmlPage = {
   pageUrl: string;
   /**
@@ -7,15 +9,18 @@ type HtmlPage = {
   /**
    * first h1 in the page, news title
    */
-  headLine?: string;
+  headline?: string;
   /**
    * page elements such as img, h1, h2, p, blockquote
    * dump html content of ul, table and non-standard text nodes
    */
   elements: {
-    type: string;
     /**
-     * text content for h1-h6, p, blockquote
+     * from prisma, set of html elements (h1-h6, p, blockquote)
+     */
+    type: HtmlItemType;
+    /**
+     * text content of the html element
      * src for image,
      * html dump for other elems such as ul, table etc.
      */

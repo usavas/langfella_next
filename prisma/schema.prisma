@@ -48,6 +48,7 @@ model HtmlPage {
 model HtmlContentItem {
   id         Int          @id @default(autoincrement())
   type       HtmlItemType
+  content    String
   HtmlPage   HtmlPage?    @relation(fields: [htmlPageId], references: [id])
   htmlPageId Int?
 }

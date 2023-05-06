@@ -1,10 +1,14 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from "next";
 import puppeteer, { ElementHandle, Page } from "puppeteer";
-import HtmlPage from "../../types/api_types/HtmlPageResponse";
+import HtmlPageResponse from "../../types/api_types/HtmlPageResponse";
+import { HtmlItemType } from "@prisma/client";
 
 const fetchHtml = async (req: NextApiRequest, res: NextApiResponse) => {
   const { url } = req.query;
+
+  const decodedUrl = decodeURIComponent(url as string);
+  console.log({ decodedUrl });
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -22,13 +26,15 @@ const fetchHtml = async (req: NextApiRequest, res: NextApiResponse) => {
   const article = await page.$$("article");
   if (article != null) {
     elements = await page.$$(
-      "article h1,h2,h3,h4,h5,h6,p,img,blockquote,ul,table"
+      "article h1,h2,h3,h4,h5,h6,p,img,blockquote" //,ul,table"
     );
   } else {
-    elements = await page.$$("h1,h2,h3,h4,h5,h6,p,img,blockquote,ul,table");
+    elements = await page.$$(
+      "h1,h2,h3,h4,h5,h6,p,img,blockquote" //,ul,table"
+    );
   }
 
-  const contentArray = [];
+  const contentArray: { type: HtmlItemType; content: string }[] = [];
   for (let element of elements) {
     const tagName = await element.evaluate((node) => node.tagName);
     let content: string | null = "";
@@ -41,28 +47,26 @@ const fetchHtml = async (req: NextApiRequest, res: NextApiResponse) => {
     } else if (textNodes.test(tagName)) {
       content = await element.evaluate((node) => node.textContent);
     } else {
-      content = await element
-        .getProperty("innerHTML")
-        .then((property) => property.jsonValue());
+      const handle = await element.getProperty("innerHTML");
+      content = await handle.jsonValue();
     }
 
     contentArray.push({
-      type: tagName,
+      type: tagName.toLowerCase() as HtmlItemType,
       content: content ?? "",
     });
   }
 
-  const result: HtmlPage = {
+  const result: HtmlPageResponse = {
     pageUrl: pageUrl,
     title: pageTitle,
-    headLine: contentArray.find((c) => c.type === "H1")?.content ?? undefined,
+    headline: contentArray.find((c) => c.type === "h1")?.content ?? "",
     elements: contentArray,
   };
 
-  console.log(result);
-
   await browser.close();
-  res.status(200).send(result);
+
+  res.status(200).json(result);
 };
 
 export default fetchHtml;
