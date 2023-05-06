@@ -1,14 +1,17 @@
 import { GetServerSideProps } from "next";
-import ReadingListComp from "../components/ReadingListComp";
+import ReadingListComp from "../components/homeComponents/ReadingListComp";
+import ImportedWebPages from "../components/homeComponents/WebPageListComp";
 import Link from "next/link";
 import prisma from "../lib/prisma";
 import ReadingWAuthorAndLang from "../types/ReadingWAuthorsAndLanguage";
+import HtmlPageWContentAndLanguage from "../types/HtmlPageWContentAndLanguage";
 
 type PropsType = {
-  props: { readings: ReadingWAuthorAndLang[] };
+  readings: ReadingWAuthorAndLang[];
+  importedWebPages: HtmlPageWContentAndLanguage[];
 };
 
-const Home = ({ readings }: { readings: ReadingWAuthorAndLang[] }) => {
+const Home = ({ readings, importedWebPages }: PropsType) => {
   return (
     <div className="mx-4 my-4">
       <main className="">
@@ -19,8 +22,18 @@ const Home = ({ readings }: { readings: ReadingWAuthorAndLang[] }) => {
         >
           Import Content
         </Link>
-        <h3>Readings</h3>
-        <ReadingListComp readings={readings}></ReadingListComp>
+        {importedWebPages.length > 0 && (
+          <>
+            <h3>Imported Web Pages</h3>
+            <ImportedWebPages webPages={importedWebPages} />
+          </>
+        )}
+        {readings.length > 0 && (
+          <>
+            <h3>Readings</h3>
+            <ReadingListComp readings={readings} />
+          </>
+        )}
       </main>
     </div>
   );
@@ -33,7 +46,14 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       language: { select: { code: true, name: true } },
     },
   });
-  return { props: { readings } };
+  const importedWebPages = await prisma.htmlPage.findMany({
+    include: {
+      contents: true,
+      language: true,
+    },
+  });
+
+  return { props: { readings, importedWebPages } };
 };
 
 export default Home;

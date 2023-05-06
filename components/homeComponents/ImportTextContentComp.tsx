@@ -2,7 +2,7 @@ import { useState } from "react";
 
 function ImportTextContentComp() {
   const [source, setSource] = useState("");
-  const [label, setLabel] = useState({ content: "", ok: false });
+  const [label, setLabel] = useState({ text: "", ok: false });
 
   return (
     <div>
@@ -19,7 +19,7 @@ function ImportTextContentComp() {
         <label
           className={"text-sm " + (label.ok ? "text-gray-900" : "text-red-600")}
         >
-          {label.content}
+          {label.text}
         </label>
       </div>
     </div>
@@ -40,11 +40,17 @@ function ImportTextContentComp() {
       return;
     }
 
-    //TODO import text content
+    try {
+      //TODO import text content
 
-    //TODO set label text based on success status
+      //TODO set label text based on success status
 
-    //TODO add to readings
+      //TODO add to readings
+
+      setLabel({ text: "Content content imported", ok: true });
+    } catch (error) {
+      setLabel({ text: "Content could not be imported", ok: false });
+    }
   }
 }
 

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Popup from "./PopupComp";
-import ReadingType from "../types/ReadingType";
+import TranslationPopupComp from "./TranslationPopupComp";
+import { Reading } from "@prisma/client";
 
 type Props = {
-  reading: ReadingType;
+  reading: Reading;
 };
 
 type WordPopupSettings = {
@@ -11,9 +11,7 @@ type WordPopupSettings = {
   shown: boolean;
 };
 
-function ReadingComp(props: Props) {
-  const { reading } = props;
-
+function ReadingComp({ reading }: Props) {
   const [wordPopupSetting, setWordPopupSetting] = useState<WordPopupSettings>({
     word: "",
     shown: false,
@@ -21,7 +19,7 @@ function ReadingComp(props: Props) {
 
   let prevSelection: string = "";
 
-  const renderText = reading.text.map((t, i) => (
+  const renderText = reading.contents.map((t, i) => (
     <p className="word" key={i}>
       {t}
     </p>
@@ -34,7 +32,10 @@ function ReadingComp(props: Props) {
       onMouseUp={handleSelection}
     >
       {wordPopupSetting.shown && (
-        <Popup word={wordPopupSetting.word} close={handleClose}></Popup>
+        <TranslationPopupComp
+          word={wordPopupSetting.word}
+          close={handleClose}
+        ></TranslationPopupComp>
       )}
       <h1>{reading.title}</h1>
       {renderText}

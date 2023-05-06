@@ -5,7 +5,7 @@ type Props = {
   close: () => void;
 };
 
-const Popup = (props: Props) => {
+const TranslationPopupComp = (props: Props) => {
   const { close } = props;
 
   const [translation, setTranslation] = useState<string>("");
@@ -72,4 +72,4 @@ const Popup = (props: Props) => {
   }
 };
 
-export default Popup;
+export default TranslationPopupComp;

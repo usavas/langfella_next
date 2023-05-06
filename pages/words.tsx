@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import prisma from "../lib/prisma";
 import { Word } from "@prisma/client";
-import WordComp from "../components/WordComp";
+import WordComp from "../components/wordPageComponents/WordComp";
 
 type WordWLangs = Word & {
   sourceLanguage: { name: string; code: string };

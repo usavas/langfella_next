@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import ReadingWAuthorAndLang from "../types/ReadingWAuthorsAndLanguage";
+import ReadingWAuthorAndLang from "../../types/ReadingWAuthorsAndLanguage";
 
 type Props = {
   reading: ReadingWAuthorAndLang;

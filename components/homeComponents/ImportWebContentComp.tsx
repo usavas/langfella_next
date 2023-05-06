@@ -1,8 +1,5 @@
-import { HtmlPage } from "@prisma/client";
 import { useEffect, useState } from "react";
-import { PrismaClient } from "@prisma/client";
-import prisma from "../lib/prisma";
-import HtmlPageResponse from "../types/api_types/HtmlPageResponse";
+import HtmlPageResponse from "../../types/api_types/HtmlPageResponse";
 
 function ImportWebContentComp() {
   const [source, setSource] = useState("");

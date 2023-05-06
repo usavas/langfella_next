@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ImportWebContentComp from "../components/ImportWebContentComp";
-import ImportTextContentComp from "../components/ImportTextContentComp";
+import ImportWebContentComp from "../components/homeComponents/ImportWebContentComp";
+import ImportTextContentComp from "../components/homeComponents/ImportTextContentComp";
 
 function ImportContent() {
   const [selectedContentType, setSelectedContentType] = useState<
@@ -32,9 +32,9 @@ function ImportContent() {
         </button>
       </div>
       {selectedContentType === "web" ? (
-        <ImportWebContentComp></ImportWebContentComp>
+        <ImportWebContentComp />
       ) : (
-        <ImportTextContentComp></ImportTextContentComp>
+        <ImportTextContentComp />
       )}
     </div>
   );
