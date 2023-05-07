@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import HtmlPageResponse from "../../types/api_types/HtmlPageResponse";
+import ParsedHtmlPage from "../../types/api_types/ParsedHtmlPage";
+import { Prisma } from "@prisma/client";
+import HtmlPageCreateInputs from "../../types/api_types/HtmlPageCreateInputs";
 
 function ImportWebContentComp() {
   const [source, setSource] = useState("");
@@ -71,14 +73,18 @@ function ImportWebContentComp() {
       const response = await fetch(
         "/api/fetchHtml?url=" + encodeURIComponent(source)
       );
-      const htmlPage = (await response.json()) as HtmlPageResponse;
+      const htmlPage = (await response.json()) as ParsedHtmlPage;
 
-      console.log(htmlPage);
+      const htmlPageCreateArgs: HtmlPageCreateInputs = {
+        htmlPage,
+        source,
+        languageCode: "en",
+      };
 
       const postResult = await fetch("/api/htmlpages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(htmlPage),
+        body: JSON.stringify(htmlPageCreateArgs),
       });
 
       setLabel({ text: "Website content imported", ok: true });

@@ -1,52 +1,53 @@
-import HtmlPageResponse from "../types/api_types/HtmlPageResponse";
-import { HtmlItemType } from "@prisma/client";
 import cheerio from "cheerio";
+import { HtmlItemTag } from "@prisma/client";
 
-const parseHtml = async (htmlContent: string) => {
+export type HtmlPage = {
+  pageTitle: string;
+  contents: HtmlContent[];
+};
+
+export type HtmlContent = {
+  tag: HtmlItemTag;
+  content: string;
+};
+
+// use cheerio to load and get elements in web page.
+const parseHtml = async (htmlContent: string): Promise<HtmlPage> => {
   const $ = cheerio.load(htmlContent);
 
-  return $("h1").text();
+  const title = $("title").text();
 
-  // const article = await page.$$("article");
-  // if (article != null) {
-  //   elements = await page.$$(
-  //     "article h1,h2,h3,h4,h5,h6,p,img,blockquote" //,ul,table"
-  //   );
-  // } else {
-  //   elements = await page.$$(
-  //     "h1,h2,h3,h4,h5,h6,p,img,blockquote" //,ul,table"
-  //   );
-  // }
+  const article = $("article");
+  const articleSelector = article.length ? "article" : "";
+  const nodesSelector = [
+    articleSelector,
+    "h1, h2, h3, h4, h5, h6, p, img, blockquote, ul, ol, table",
+  ].join(" ");
 
-  // const contentArray: { type: HtmlItemType; content: string }[] = [];
-  // for (let element of elements) {
-  //   const tagName = await element.evaluate((node) => node.tagName);
-  //   let content: string | null = "";
+  const nodesResult: HtmlContent[] = [];
+  const nodes = $(nodesSelector);
 
-  //   const textNodes = /H1|H2|H3|H4|H5|H6|P|BLOCKQUOTE/i;
+  for (let i = 0; i < nodes.length; i++) {
+    const element = nodes[i];
+    const tag: HtmlItemTag = $(element).prop("tagName").toLowerCase();
+    let content: string = "";
 
-  //   if (tagName === "IMG") {
-  //     const src = await element.evaluate((node) => node.getAttribute("src"));
-  //     content = src;
-  //   } else if (textNodes.test(tagName)) {
-  //     content = await element.evaluate((node) => node.textContent);
-  //   } else {
-  //     const handle = await element.getProperty("innerHTML");
-  //     content = await handle.jsonValue();
-  //   }
+    if (tag === "img") {
+      content = $(element).prop("src");
+    } else if (tag === "ul" || tag === "ol") {
+      //TODO handle ul and ol lists
+      continue;
+    } else if (tag === "table") {
+      //TODO handle table
+      continue;
+    } else {
+      content = $(element).text();
+    }
 
-  //   contentArray.push({
-  //     type: tagName.toLowerCase() as HtmlItemType,
-  //     content: content ?? "",
-  //   });
-  // }
+    nodesResult.push({ tag, content });
+  }
 
-  // const result: HtmlPageResponse = {
-  //   pageUrl: pageUrl,
-  //   title: pageTitle,
-  //   headline: contentArray.find((c) => c.type === "h1")?.content ?? "",
-  //   elements: contentArray,
-  // };
+  return { pageTitle: title, contents: nodesResult };
 };
 
 export default parseHtml;

@@ -11,9 +11,9 @@ function WebPageListItemComp({ webPage }: PropTypes) {
 
   return (
     <div className="card" onClick={handleClick}>
-      <p className="line-clamp-2">{webPage.title}</p>
+      <p className="line-clamp-2">{webPage.pageTitle ?? webPage.headline}</p>
       <p className="text-xs font-extralight line-clamp-2 mt-2">
-        {webPage.contents[1].content}
+        {webPage.contents.filter((c) => c.tag === "p")[0].content}
       </p>
       <span className="text-sm font-light mt-2">10 words</span>
       <span className="text-sm font-light block">10 unknown</span>

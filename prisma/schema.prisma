@@ -46,14 +46,14 @@ model HtmlPage {
 }
 
 model HtmlContentItem {
-  id         Int          @id @default(autoincrement())
-  type       HtmlItemType
+  id         Int         @id @default(autoincrement())
+  tag        HtmlItemTag
   content    String
-  HtmlPage   HtmlPage?    @relation(fields: [htmlPageId], references: [id])
+  HtmlPage   HtmlPage?   @relation(fields: [htmlPageId], references: [id])
   htmlPageId Int?
 }
 
-enum HtmlItemType {
+enum HtmlItemTag {
   h1
   h2
   h3
@@ -64,6 +64,7 @@ enum HtmlItemType {
   img
   blockquote
   ul
+  ol
   table
 }
 

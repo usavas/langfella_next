@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "HtmlItemType" AS ENUM ('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'img', 'blockquote', 'ul', 'table');
+CREATE TYPE "HtmlItemTag" AS ENUM ('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'img', 'blockquote', 'ul', 'ol', 'table');
 
 -- CreateTable
 CREATE TABLE "ReadingGroup" (
@@ -38,7 +38,7 @@ CREATE TABLE "HtmlPage" (
 -- CreateTable
 CREATE TABLE "HtmlContentItem" (
     "id" SERIAL NOT NULL,
-    "type" "HtmlItemType" NOT NULL,
+    "tag" "HtmlItemTag" NOT NULL,
     "content" TEXT NOT NULL,
     "htmlPageId" INTEGER,
 

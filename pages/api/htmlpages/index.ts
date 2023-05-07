@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
-import HtmlPageResponse from "../../../types/api_types/HtmlPageResponse";
+import HtmlPageCreateInputs from "../../../types/api_types/HtmlPageCreateInputs";
 
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
@@ -19,20 +19,16 @@ const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
 async function handleGetRequest(req: NextApiRequest, res: NextApiResponse) {}
 
 async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
-  console.log({ reqbody: req.body });
+  const { htmlPage, source, languageCode } = req.body as HtmlPageCreateInputs;
 
-  const htmlPage = req.body as HtmlPageResponse;
-
-  console.log({ htmlPage });
-
-  prisma.htmlPage
+  await prisma.htmlPage
     .create({
       data: {
-        pageTitle: htmlPage.pageTitle ?? "",
         headline: htmlPage.headline ?? "",
+        pageTitle: htmlPage.pageTitle ?? "",
+        uri: source,
         contents: { createMany: { data: htmlPage.elements } },
-        uri: htmlPage.pageUrl,
-        language: { connect: { code: "en" } },
+        language: { connect: { code: languageCode } },
       },
     })
     .then((response) => {

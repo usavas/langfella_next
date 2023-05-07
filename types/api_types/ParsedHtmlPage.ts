@@ -1,7 +1,6 @@
-import { HtmlItemType } from "@prisma/client";
+import { HtmlItemTag } from "@prisma/client";
 
-type HtmlPage = {
-  pageUrl: string;
+type ParsedHtmlPage = {
   /**
    * page title (in the address bar)
    */
@@ -18,7 +17,7 @@ type HtmlPage = {
     /**
      * from prisma, set of html elements (h1-h6, p, blockquote)
      */
-    type: HtmlItemType;
+    tag: HtmlItemTag;
     /**
      * text content of the html element
      * src for image,
@@ -28,4 +27,4 @@ type HtmlPage = {
   }[];
 };
 
-export default HtmlPage;
+export default ParsedHtmlPage;

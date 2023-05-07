@@ -20,7 +20,7 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
   let prevSelection: string = "";
 
   let firstImgComp: ReactElement | null = null;
-  const firstImage = webPage.contents.find((i) => i.type === "img");
+  const firstImage = webPage.contents.find((i) => i.tag === "img");
   if (firstImage) {
     firstImgComp = (
       <img src={firstImage.content} alt="Main image of the article" />
@@ -28,7 +28,7 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
   }
 
   const renderText = webPage.contents.map((t, i) => {
-    switch (t.type) {
+    switch (t.tag) {
       case "h1":
         return <h1>{t.content}</h1>;
       case "h2":
