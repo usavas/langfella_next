@@ -16,17 +16,21 @@ const parseHtml = async (htmlContent: string): Promise<HtmlPage> => {
   const $ = cheerio.load(htmlContent);
 
   const title = $("title").text();
+  const body = $("body")?.first();
+  const article = $(body)?.find("article")?.first();
+  const tags: string =
+    "h1, h2, h3, h4, h5, h6, p, img, blockquote, ul, ol, table";
 
-  const article = $("article");
-  const articleSelector = article.length ? "article" : "";
-  const nodesSelector = [
-    articleSelector,
-    "h1, h2, h3, h4, h5, h6, p, img, blockquote, ul, ol, table",
-  ].join(" ");
+  let nodes: cheerio.Cheerio;
+  if (article.length) {
+    nodes = article.find(tags);
+  } else {
+    nodes = body.find(tags);
+  }
+
+  // const nodes = $(nodesSelector);
 
   const nodesResult: HtmlContent[] = [];
-  const nodes = $(nodesSelector);
-
   for (let i = 0; i < nodes.length; i++) {
     const element = nodes[i];
     const tag: HtmlItemTag = $(element).prop("tagName").toLowerCase();
@@ -34,6 +38,8 @@ const parseHtml = async (htmlContent: string): Promise<HtmlPage> => {
 
     if (tag === "img") {
       content = $(element).prop("src");
+      console.log("could not get src of image");
+      console.log(element);
     } else if (tag === "ul" || tag === "ol") {
       //TODO handle ul and ol lists
       continue;
@@ -44,7 +50,9 @@ const parseHtml = async (htmlContent: string): Promise<HtmlPage> => {
       content = $(element).text();
     }
 
-    nodesResult.push({ tag, content });
+    if (tag && content) {
+      nodesResult.push({ tag, content });
+    }
   }
 
   return { pageTitle: title, contents: nodesResult };

@@ -1,14 +1,6 @@
-import bbchtmlcontent from "../__test_fake_data__/bbchtmlcontent";
 import parseHtml, { HtmlContent, HtmlPage } from "../services/htmlParser";
 
 export default describe("tests", () => {
-  it("get all elements under article component", async () => {
-    const html: string = bbchtmlcontent;
-    const result: HtmlPage = await parseHtml(html);
-
-    expect(result.contents).not.toContain((el: HtmlContent) => el.tag === "h1");
-  });
-
   it("get html with h1 tag contains h1 tag", async () => {
     const html: string = `<!DOCTYPE html>
     <html lang="en">
@@ -40,13 +32,16 @@ export default describe("tests", () => {
       </head>
       <body>
         <main>
-          <h1></h1>
+          <h1>Content</h1>
           <img src="http://fake/source" alt="alt text">
         </main>
       </body>
     </html>`;
 
     const result: HtmlPage = await parseHtml(html);
+    console.log({ result });
+
+    expect(result.contents.filter((i) => i.tag === "img").length).toEqual(1);
     expect(result.contents.filter((i) => i.tag === "img")[0].content).toContain(
       "fake/source"
     );
@@ -63,20 +58,24 @@ export default describe("tests", () => {
       </head>
       <body>
         <main>
-          <h1></h1>
-          <img src="http://fake/source" alt="alt text" />
-          <p>Lorem, ipsum dolor.</p>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel et fugit
-            officiis culpa cum alias.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia
-            numquam id accusamus modi itaque minus soluta aut culpa. Possimus
-            corporis dolore temporibus doloribus quasi inventore velit minus
-            nesciunt voluptatibus quae eveniet, totam omnis esse facere, est ipsum
-            eligendi dolorem blanditiis!
-          </p>
+          <article>
+            <h1></h1>
+            <p>Lorem, ipsum dolor.</p>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel et fugit
+              officiis culpa cum alias.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia
+              numquam id accusamus modi itaque minus soluta aut culpa. Possimus
+              corporis dolore temporibus doloribus quasi inventore velit minus
+              nesciunt voluptatibus quae eveniet, totam omnis esse facere, est ipsum
+              eligendi dolorem blanditiis!
+            </p>
+          </article>
+          <article>
+            <p>Test</p>
+          </article>
         </main>
       </body>
     </html>

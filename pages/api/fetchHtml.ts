@@ -7,7 +7,6 @@ const fetchHtml = async (req: NextApiRequest, res: NextApiResponse) => {
   const { url } = req.query;
 
   const decodedUrl = decodeURIComponent(url as string);
-  console.log({ decodedUrl });
 
   const pageContentResult = await fetch(decodedUrl);
   const pageContent = await pageContentResult.text();

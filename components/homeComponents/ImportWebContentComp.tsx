@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import ParsedHtmlPage from "../../types/api_types/ParsedHtmlPage";
-import { Prisma } from "@prisma/client";
 import HtmlPageCreateInputs from "../../types/api_types/HtmlPageCreateInputs";
 
 function ImportWebContentComp() {
