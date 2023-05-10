@@ -74,12 +74,19 @@ const TranslationPopupComp = (props: Props) => {
             >
               Close
             </button>
-            <button>Listen</button>
+            <button onClick={handleSpeech}>Listen</button>
           </div>
         </div>
       </div>
     </div>
   );
+
+  function handleSpeech() {
+    var msg = new SpeechSynthesisUtterance();
+    msg.text = props.word;
+    msg.lang = "es"; //TODO get the language of the reading text for actual speech language
+    window.speechSynthesis.speak(msg);
+  }
 
   async function saveWord(e: any) {
     e.stopPropagation();
