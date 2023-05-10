@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
-import { Word } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
@@ -19,7 +19,7 @@ const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
 async function handleGetRequest(req: NextApiRequest, res: NextApiResponse) {}
 
 async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
-  const word = req.body as Word;
+  const word = req.body as Prisma.WordCreateArgs["data"];
 
   await prisma.word
     .create({

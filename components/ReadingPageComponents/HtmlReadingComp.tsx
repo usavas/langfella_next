@@ -61,6 +61,7 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
       {wordPopupSetting.shown && (
         <TranslationPopupComp
           word={wordPopupSetting.word}
+          htmlPageId={webPage.id}
           close={handleClose}
         ></TranslationPopupComp>
       )}

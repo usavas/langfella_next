@@ -10,11 +10,13 @@ import { useEffect, useState } from "react";
 
 type Props = {
   word: string;
+  readingId?: number;
+  htmlPageId?: number;
   close: () => void;
 };
 
 const TranslationPopupComp = (props: Props) => {
-  const { close, word } = props;
+  const { close, word, htmlPageId, readingId } = props;
 
   const [translation, setTranslation] = useState<string>("");
 
@@ -72,6 +74,7 @@ const TranslationPopupComp = (props: Props) => {
             >
               Close
             </button>
+            <button>Listen</button>
           </div>
         </div>
       </div>
@@ -87,15 +90,21 @@ const TranslationPopupComp = (props: Props) => {
       return;
     }
 
+    let readingIds = {};
+    if (htmlPageId) {
+      readingIds = { htmlPageId };
+    } else if (readingId) {
+      readingIds = { readingId };
+    }
+
     const word: Prisma.WordCreateArgs["data"] = {
       text: props.word,
       translation: [translation],
-      htmlPageId: 1,
-      readingId: 1,
+      ...readingIds,
       sourceLangId: 1,
       targetLangId: 2,
       status: "1", // default status is 1. (means not familiar with this newly added word)
-      // exampleSentences: [""],
+      // exampleSentences: [""], //TODO impl example sentence feature.
     };
 
     await fetch("/api/words", {
