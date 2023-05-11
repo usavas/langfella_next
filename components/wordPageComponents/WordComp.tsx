@@ -1,4 +1,5 @@
 import { Word } from "@prisma/client";
+import Router from "next/router";
 
 function WordComp({ word }: { word: Word }) {
   return (
@@ -17,11 +18,31 @@ function WordComp({ word }: { word: Word }) {
           {word.exampleSentences.join(", ")}
         </p>
       </div>
+      <span
+        className="bg-red-400 text-white rounded-md px-2"
+        onClick={handleDelete}
+      >
+        Del
+      </span>
       <div className="inline-flex justify-center align-middle rounded-full bg-gray-200 w-4 h-4 p-4 items-center text-base font-medium text-gray-900 ">
         {word.status}
       </div>
     </div>
   );
+
+  function handleDelete(e: any) {
+    console.log({ word });
+    fetch("/api/words/" + word.id, { method: "DELETE" })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log("word deleted successfully");
+        //TODO update content on the client side
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   //TODO open a popup or navigate to window of the word details
   function openWordView(e: any) {}
