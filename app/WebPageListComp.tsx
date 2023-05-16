@@ -1,5 +1,5 @@
 import React from "react";
-import HtmlPageWContentAndLanguage from "../../types/HtmlPageWContentAndLanguage";
+import HtmlPageWContentAndLanguage from "../types/HtmlPageWContentAndLanguage";
 import WebPageListItemComp from "./WebPageListItemComp";
 
 type PropTypes = {

@@ -1,5 +1,5 @@
 import ReadingListItemComp from "./ReadingListItemComp";
-import ReadingWAuthorAndLang from "../../types/ReadingWAuthorsAndLanguage";
+import ReadingWAuthorAndLang from "../types/ReadingWAuthorsAndLanguage";
 
 type Props = {
   readings: ReadingWAuthorAndLang[];

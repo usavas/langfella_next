@@ -1,9 +1,11 @@
+"use client";
+
 import { useState } from "react";
-import TranslationPopupComp from "./TranslationPopupComp";
-import { Reading } from "@prisma/client";
+import TranslationPopupComp from "../../../components/ReadingPageComponents/TranslationPopupComp";
+import ReadingWAuthorAndLang from "../../../types/ReadingWAuthorsAndLanguage";
 
 type Props = {
-  reading: Reading;
+  reading: ReadingWAuthorAndLang;
 };
 
 type WordPopupSettings = {

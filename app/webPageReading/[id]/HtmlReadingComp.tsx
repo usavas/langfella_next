@@ -1,6 +1,8 @@
+"use client";
+
 import { ReactElement, useState } from "react";
-import TranslationPopupComp from "./TranslationPopupComp";
-import HtmlPageWContentAndLanguage from "../../types/HtmlPageWContentAndLanguage";
+import TranslationPopupComp from "../../../components/ReadingPageComponents/TranslationPopupComp";
+import HtmlPageWContentAndLanguage from "../../../types/HtmlPageWContentAndLanguage";
 
 type Props = {
   webPage: HtmlPageWContentAndLanguage;

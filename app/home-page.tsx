@@ -1,8 +1,8 @@
-import { GetServerSideProps } from "next";
-import ReadingListComp from "../components/homeComponents/ReadingListComp";
-import ImportedWebPages from "../components/homeComponents/WebPageListComp";
+"use client";
+
+import ReadingListComp from "./ReadingListComp";
+import ImportedWebPages from "./WebPageListComp";
 import Link from "next/link";
-import prisma from "../lib/prisma";
 import ReadingWAuthorAndLang from "../types/ReadingWAuthorsAndLanguage";
 import HtmlPageWContentAndLanguage from "../types/HtmlPageWContentAndLanguage";
 
@@ -37,23 +37,6 @@ const Home = ({ readings, importedWebPages }: PropsType) => {
       </main>
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const readings = await prisma.reading.findMany({
-    include: {
-      authors: { select: { firstName: true, lastName: true } },
-      language: { select: { code: true, name: true } },
-    },
-  });
-  const importedWebPages = await prisma.htmlPage.findMany({
-    include: {
-      contents: true,
-      language: true,
-    },
-  });
-
-  return { props: { readings, importedWebPages } };
 };
 
 export default Home;
