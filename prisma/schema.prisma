@@ -49,7 +49,7 @@ model HtmlContentItem {
   id         Int         @id @default(autoincrement())
   tag        HtmlItemTag
   content    String
-  HtmlPage   HtmlPage?   @relation(fields: [htmlPageId], references: [id])
+  HtmlPage   HtmlPage?   @relation(fields: [htmlPageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   htmlPageId Int?
 }
 
