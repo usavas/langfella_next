@@ -1,6 +1,8 @@
+"use client";
+
 import { useState } from "react";
-import ImportWebContentComp from "../components/homeComponents/ImportWebContentComp";
-import ImportTextContentComp from "../components/homeComponents/ImportTextContentComp";
+import ImportWebContentComp from "./ImportWebContentComp";
+import ImportTextContentComp from "./ImportTextContentComp";
 
 function ImportContent() {
   const [selectedContentType, setSelectedContentType] = useState<

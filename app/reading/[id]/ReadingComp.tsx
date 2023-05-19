@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import TranslationPopupComp from "../../../components/ReadingPageComponents/TranslationPopupComp";
+import TranslationPopupComp from "../../components/TranslationPopupComp";
 import ReadingWAuthorAndLang from "../../../types/ReadingWAuthorsAndLanguage";
 
 type Props = {
@@ -55,6 +55,8 @@ function ReadingComp({ reading }: Props) {
    * @returns Handle text selection for both mouse and touch selection
    */
   function handleSelection(e: any): void {
+    console.log("in");
+
     const selectedString = window.getSelection()?.toString();
 
     if (!selectedString) {

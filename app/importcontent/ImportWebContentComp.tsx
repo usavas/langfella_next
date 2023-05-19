@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import ParsedHtmlPage from "../../types/api_types/ParsedHtmlPage";
 import HtmlPageCreateInputs from "../../types/api_types/HtmlPageCreateInputs";

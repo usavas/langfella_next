@@ -17,7 +17,7 @@ export default async function ReadingType({
   return <HtmlReadingComp webPage={webPage} />;
 }
 
-export const getHtmlReading = async (id: string) => {
+const getHtmlReading = async (id: string) => {
   const webPage: HtmlPageWContentAndLanguage | null =
     await prisma.htmlPage.findUnique({
       where: { id: parseInt(id as string) },

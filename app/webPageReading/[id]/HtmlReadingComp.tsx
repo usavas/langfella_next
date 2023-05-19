@@ -1,8 +1,9 @@
 "use client";
 
 import { ReactElement, useState } from "react";
-import TranslationPopupComp from "../../../components/ReadingPageComponents/TranslationPopupComp";
+import TranslationPopupComp from "../../components/TranslationPopupComp";
 import HtmlPageWContentAndLanguage from "../../../types/HtmlPageWContentAndLanguage";
+import { HtmlContentItem } from "@prisma/client";
 
 type Props = {
   webPage: HtmlPageWContentAndLanguage;
@@ -30,36 +31,17 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
   }
 
   const renderText = webPage.contents.map((t, i) => {
-    switch (t.tag) {
-      case "h1":
-        return <h1>{t.content}</h1>;
-      case "h2":
-        return <h2>{t.content}</h2>;
-      case "h3":
-        return <h3>{t.content}</h3>;
-      case "h4":
-        return <h4>{t.content}</h4>;
-      case "h5":
-        return <h5>{t.content}</h5>;
-      case "h6":
-        return <h6>{t.content}</h6>;
-      case "p":
-        return (
-          <p className="word" key={i}>
-            {t.content}
-          </p>
-        );
-      default:
-        break;
-    }
+    return getTextNodeByTag(t, i);
   });
 
   return (
     <div
       className="max-w-3xl mx-4 my-8"
+      onClick={() => console.log("test")}
       onTouchEndCapture={handleSelection}
       onMouseUp={handleSelection}
     >
+      {console.log("frontend")}
       {wordPopupSetting.shown && (
         <TranslationPopupComp
           word={wordPopupSetting.word}
@@ -97,6 +79,31 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
 
       // show popup for translation
       setWordPopupSetting({ shown: true, word: selectedString });
+    }
+  }
+
+  function getTextNodeByTag(t: HtmlContentItem, i: number): JSX.Element {
+    switch (t.tag) {
+      case "h1":
+        return <h1 key={i}>{t.content}</h1>;
+      case "h2":
+        return <h2 key={i}>{t.content}</h2>;
+      case "h3":
+        return <h3 key={i}>{t.content}</h3>;
+      case "h4":
+        return <h4 key={i}>{t.content}</h4>;
+      case "h5":
+        return <h5 key={i}>{t.content}</h5>;
+      case "h6":
+        return <h6 key={i}>{t.content}</h6>;
+      case "p":
+        return (
+          <p className="word" key={i}>
+            {t.content}
+          </p>
+        );
+      default:
+        return <div key={i}></div>;
     }
   }
 }

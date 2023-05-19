@@ -13,7 +13,7 @@ export default async function Reading({
   return <ReadingComp reading={reading}></ReadingComp>;
 }
 
-export const getReadings = async (id: string) => {
+const getReadings = async (id: string) => {
   const reading = await prisma.reading.findUnique({
     where: { id: parseInt(id) },
     include: { authors: true, language: true },

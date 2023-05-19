@@ -1,3 +1,5 @@
+"use client";
+
 //TODO need the following variables to save the word to Database
 /**
  * reading or html page id

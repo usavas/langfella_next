@@ -1,5 +1,6 @@
+"use client";
+
 import { Word } from "@prisma/client";
-import Router from "next/router";
 
 function WordComp({ word }: { word: Word }) {
   return (
@@ -37,7 +38,7 @@ function WordComp({ word }: { word: Word }) {
       .then((res) => {
         console.log("word deleted successfully");
         //TODO update content on the client side
-        Router.reload();
+        // Router.redirect("/");
       })
       .catch((err) => {
         console.log(err);

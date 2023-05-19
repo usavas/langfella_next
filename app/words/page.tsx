@@ -1,14 +1,15 @@
 import { GetServerSideProps } from "next";
-import prisma from "../lib/prisma";
+import prisma from "../../lib/prisma";
 import { Word } from "@prisma/client";
-import WordComp from "../components/wordPageComponents/WordComp";
+import WordComp from "./WordComp";
 
 type WordWLangs = Word & {
   sourceLanguage: { name: string; code: string };
   targetLanguage: { name: string; code: string };
 };
 
-const Words = ({ words }: { words: WordWLangs[] }) => {
+const Words = async () => {
+  const words = await getWordList();
   return (
     <div className="m-4 ">
       <ul className=" divide-y divide-gray-200">
@@ -22,7 +23,7 @@ const Words = ({ words }: { words: WordWLangs[] }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+async function getWordList() {
   const words = await prisma.word.findMany({
     include: {
       sourceLanguage: { select: { name: true, code: true } },
@@ -30,9 +31,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     },
   });
 
-  return {
-    props: { words },
-  };
-};
+  return words;
+}
 
 export default Words;

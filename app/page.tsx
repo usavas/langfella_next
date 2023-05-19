@@ -1,6 +1,15 @@
-// Import your Client Component
 import prisma from "../lib/prisma";
 import HomePage from "./home-page";
+
+export default async function Page() {
+  const readingContents = await getReadingContents();
+  return (
+    <HomePage
+      readings={readingContents.readings}
+      importedWebPages={readingContents.importedWebPages}
+    />
+  );
+}
 
 async function getReadingContents() {
   const readings = await prisma.reading.findMany({
@@ -17,14 +26,4 @@ async function getReadingContents() {
   });
 
   return { readings, importedWebPages };
-}
-
-export default async function Page() {
-  const readingContents = await getReadingContents();
-  return (
-    <HomePage
-      readings={readingContents.readings}
-      importedWebPages={readingContents.importedWebPages}
-    />
-  );
 }
