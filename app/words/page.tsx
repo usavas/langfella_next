@@ -1,4 +1,4 @@
-import prisma from "../../lib/prisma";
+import prisma from "lib/prisma";
 import { Word } from "@prisma/client";
 import WordComp from "./WordComp";
 

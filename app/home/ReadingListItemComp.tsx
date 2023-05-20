@@ -1,4 +1,4 @@
-import ReadingWAuthorAndLang from "../../types/ReadingWAuthorsAndLanguage";
+import ReadingWAuthorAndLang from "types/ReadingWAuthorsAndLanguage";
 import Link from "next/link";
 import DeleteButton from "../components/DeleteButton";
 

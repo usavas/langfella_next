@@ -1,5 +1,5 @@
 import { Word } from "@prisma/client";
-import DeleteButton from "../components/DeleteButton";
+import DeleteButton from "app/components/DeleteButton";
 
 function WordComp({ word }: { word: Word }) {
   return (

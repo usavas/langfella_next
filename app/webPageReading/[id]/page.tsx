@@ -1,6 +1,6 @@
-import prisma from "../../../lib/prisma";
-import HtmlPageWContentAndLanguage from "../../../types/HtmlPageWContentAndLanguage";
-import HtmlReadingComp from "../../../app/webPageReading/[id]/HtmlReadingComp";
+import prisma from "lib/prisma";
+import HtmlPageWContentAndLanguage from "types/HtmlPageWContentAndLanguage";
+import HtmlReadingComp from "app/webPageReading/[id]/HtmlReadingComp";
 
 type PropsTypes = {
   webPage: HtmlPageWContentAndLanguage;

@@ -6,8 +6,8 @@ export const metadata: Metadata = {
 };
 
 import Head from "next/head";
-import "../styles/global.css";
-import "../styles/style.css";
+import "styles/global.css";
+import "styles/style.css";
 import BottomNavigation from "./components/BottomNavigation";
 
 export default function MyApp({ children }: { children: React.ReactNode }) {
