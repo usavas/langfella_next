@@ -14,7 +14,6 @@ export async function GET(request: Request) {
 
   const result: ParsedHtmlPage = {
     pageTitle: parsed.pageTitle,
-    headline: parsed.contents.find((c) => c.tag === "h1")?.content ?? "",
     elements: parsed.contents,
   };
 

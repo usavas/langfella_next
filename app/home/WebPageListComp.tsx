@@ -1,19 +1,19 @@
 import React from "react";
-import HtmlPageWContentAndLanguage from "types/HtmlPageWContentAndLanguage";
+import ReadingWAuthorsAndLanguage from "types/ReadingWAuthorsAndLanguage";
 import WebPageListItemComp from "./WebPageListItemComp";
 
 type PropTypes = {
-  webPages: HtmlPageWContentAndLanguage[];
+  readings: ReadingWAuthorsAndLanguage[];
 };
 
-function ImportedWebPagesComp({ webPages }: PropTypes) {
+function ReadingsComponent({ readings }: PropTypes) {
   return (
     <div className="flex flex-row gap-2 overflow-x-auto scrollbar-none scrollbar-hide">
-      {webPages.map((p) => (
+      {readings.map((p) => (
         <WebPageListItemComp key={p.id} webPage={p} />
       ))}
     </div>
   );
 }
 
-export default ImportedWebPagesComp;
+export default ReadingsComponent;

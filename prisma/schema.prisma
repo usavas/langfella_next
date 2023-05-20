@@ -24,33 +24,20 @@ model Reading {
   language       Language      @relation(fields: [languageId], references: [id])
   languageId     Int
   title          String
-  authors        Author[]
-  contents       String[]
   source         String?
+  authors        Author[]
   readingGroup   ReadingGroup? @relation(fields: [readingGroupId], references: [id])
   readingGroupId String?
-  wordIds        Int[]         @default([])
-  Word           Word[]
+  contents       ContentItem[]
+  UserReading    UserReading[]
 }
 
-model HtmlPage {
-  id         Int               @id @default(autoincrement())
-  language   Language          @relation(fields: [languageId], references: [id])
-  languageId Int
-  pageTitle  String            @map("title")
-  headline   String
-  uri        String
-  contents   HtmlContentItem[]
-  wordIds    Int[]             @default([])
-  Word       Word[]
-}
-
-model HtmlContentItem {
-  id         Int         @id @default(autoincrement())
-  tag        HtmlItemTag
-  content    String
-  HtmlPage   HtmlPage?   @relation(fields: [htmlPageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  htmlPageId Int?
+model ContentItem {
+  id        Int         @id @default(autoincrement())
+  tag       HtmlItemTag
+  content   String
+  reading   Reading?    @relation(fields: [readingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  readingId Int?
 }
 
 enum HtmlItemTag {
@@ -72,11 +59,12 @@ model Language {
   id           Int            @id @default(autoincrement())
   code         String         @unique
   name         String
-  readings     Reading[]
-  ReadingGroup ReadingGroup[]
   WordSource   Word[]         @relation("sourceLanguage")
   WordTarget   Word[]         @relation("targetLanguage")
-  HtmlPage     HtmlPage[]
+  HtmlPage     Reading[]
+  UILang       UserSettings[] @relation("UILang")
+  DictLang     UserSettings[] @relation("DictLang")
+  ReadingGroup ReadingGroup[]
 }
 
 model Author {
@@ -88,17 +76,48 @@ model Author {
 }
 
 model Word {
-  id               Int       @id @default(autoincrement())
+  id               Int      @id @default(autoincrement())
   text             String
-  translation      String[]  @default([])
+  translation      String[] @default([])
   status           String
-  sourceLanguage   Language  @relation("sourceLanguage", fields: [sourceLangId], references: [id])
+  sourceLanguage   Language @relation("sourceLanguage", fields: [sourceLangId], references: [id])
   sourceLangId     Int
-  targetLanguage   Language  @relation("targetLanguage", fields: [targetLangId], references: [id])
+  targetLanguage   Language @relation("targetLanguage", fields: [targetLangId], references: [id])
   targetLangId     Int
-  exampleSentences String[]  @default([])
-  reading          Reading?  @relation(fields: [readingId], references: [id])
-  readingId        Int?
-  HtmlPage         HtmlPage? @relation(fields: [htmlPageId], references: [id])
-  htmlPageId       Int?
+  exampleSentences String[] @default([])
+
+  userReadingId Int?
+  userReading   UserReading? @relation(fields: [userReadingId], references: [id])
+}
+
+model User {
+  id           String         @id @default(uuid())
+  firstName    String
+  lastName     String
+  UserSettings UserSettings[]
+  UserReading  UserReading[]
+}
+
+model UserReading {
+  id        Int     @id @default(autoincrement())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  readingId Int
+  reading   Reading @relation(fields: [readingId], references: [id], onDelete: Cascade)
+  wordIds   Int[]   @default([])
+  Word      Word[]
+
+  @@unique([userId, readingId], name: "userReadingIdentifier")
+}
+
+model UserSettings {
+  id         Int      @id @default(autoincrement())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  /// App's UI Language
+  UILang     Language @relation("UILang", fields: [UILangId], references: [id])
+  UILangId   Int
+  /// Words will be translated into this language ///TODO consider allowing multiple languages at a time
+  DictLangId Int
+  DictLang   Language @relation("DictLang", fields: [DictLangId], references: [id])
 }

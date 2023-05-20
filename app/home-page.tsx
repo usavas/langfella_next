@@ -1,18 +1,15 @@
 "use client";
 
-import ReadingListComp from "./home/ReadingListComp";
 import ImportedWebPages from "./home/WebPageListComp";
 import Link from "next/link";
 import ReadingWAuthorAndLang from "types/ReadingWAuthorsAndLanguage";
-import HtmlPageWContentAndLanguage from "types/HtmlPageWContentAndLanguage";
 
 type PropsType = {
-  continueReadings: (HtmlPageWContentAndLanguage | ReadingWAuthorAndLang)[];
+  continueReadings: ReadingWAuthorAndLang[];
   readings: ReadingWAuthorAndLang[];
-  importedWebPages: HtmlPageWContentAndLanguage[];
 };
 
-const Home = ({ continueReadings, readings, importedWebPages }: PropsType) => {
+const Home = ({ continueReadings, readings }: PropsType) => {
   return (
     <div className="mx-4 my-4">
       <main className="">
@@ -23,16 +20,10 @@ const Home = ({ continueReadings, readings, importedWebPages }: PropsType) => {
         >
           Import Content
         </Link>
-        {importedWebPages.length > 0 && (
-          <>
-            <h3>Imported Web Pages</h3>
-            <ImportedWebPages webPages={importedWebPages} />
-          </>
-        )}
         {readings.length > 0 && (
           <>
-            <h3>Readings</h3>
-            <ReadingListComp readings={readings} />
+            <h3>Imported Web Pages</h3>
+            <ImportedWebPages readings={readings} />
           </>
         )}
       </main>

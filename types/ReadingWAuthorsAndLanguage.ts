@@ -1,8 +1,9 @@
-import { Reading } from "@prisma/client";
+import { Author, ContentItem, Language, Reading } from "@prisma/client";
 
 type ReadingWAuthorAndLang = Reading & {
-  authors: { firstName: string; lastName: string }[];
-  language: { code: string; name: string };
+  contents: ContentItem[];
+  authors: Author[];
+  language: Language;
 };
 
 export default ReadingWAuthorAndLang;

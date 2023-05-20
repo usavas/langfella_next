@@ -1,9 +1,9 @@
 import prisma from "lib/prisma";
-import HtmlPageWContentAndLanguage from "types/HtmlPageWContentAndLanguage";
+import ReadingWContentAndLanguage from "types/HtmlPageWContentAndLanguage";
 import HtmlReadingComp from "app/webPageReading/[id]/HtmlReadingComp";
 
 type PropsTypes = {
-  webPage: HtmlPageWContentAndLanguage;
+  webPage: ReadingWContentAndLanguage;
 };
 
 export default async function ReadingType({
@@ -13,12 +13,12 @@ export default async function ReadingType({
   params: any;
   searchParams: any;
 }) {
-  const webPage: HtmlPageWContentAndLanguage = await getHtmlReading(params.id);
+  const webPage: ReadingWContentAndLanguage = await getHtmlReading(params.id);
   return <HtmlReadingComp webPage={webPage} />;
 }
 
 const getHtmlReading = async (id: string) => {
-  const webPage: HtmlPageWContentAndLanguage | null =
+  const webPage: ReadingWContentAndLanguage | null =
     await prisma.htmlPage.findUnique({
       where: { id: parseInt(id as string) },
       include: {

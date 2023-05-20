@@ -7,11 +7,10 @@ export async function POST(request: Request) {
     (await request.json()) as HtmlPageCreateInputs;
 
   try {
-    const result = await prisma.htmlPage.create({
+    const result = await prisma.reading.create({
       data: {
-        headline: htmlPage.headline ?? "",
-        pageTitle: htmlPage.pageTitle ?? "",
-        uri: source,
+        title: htmlPage.pageTitle ?? "No Title",
+        source,
         contents: { createMany: { data: htmlPage.elements } },
         language: { connect: { code: languageCode } },
       },

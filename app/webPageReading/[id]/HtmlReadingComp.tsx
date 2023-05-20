@@ -2,11 +2,11 @@
 
 import { ReactElement, useState } from "react";
 import TranslationPopupComp from "app/components/TranslationPopupComp";
-import HtmlPageWContentAndLanguage from "types/HtmlPageWContentAndLanguage";
-import { HtmlContentItem } from "@prisma/client";
+import ReadingWAuthorsAndLanguage from "types/ReadingWAuthorsAndLanguage";
+import { ContentItem } from "@prisma/client";
 
 type Props = {
-  webPage: HtmlPageWContentAndLanguage;
+  webPage: ReadingWAuthorsAndLanguage;
 };
 
 type WordPopupSettings = {
@@ -14,7 +14,7 @@ type WordPopupSettings = {
   shown: boolean;
 };
 
-function HtmlReadingComp({ webPage: webPage }: Props) {
+function HtmlReadingComp({ webPage: reading }: Props) {
   const [wordPopupSetting, setWordPopupSetting] = useState<WordPopupSettings>({
     word: "",
     shown: false,
@@ -23,15 +23,15 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
   let prevSelection: string = "";
 
   let firstImgComp: ReactElement | null = null;
-  const firstImage = webPage.contents.find((i) => i.tag === "img");
+  const firstImage = reading.contents.find((i: ContentItem) => i.tag === "img");
   if (firstImage) {
     firstImgComp = (
       <img src={firstImage.content} alt="Main image of the article" />
     );
   }
 
-  const renderText = webPage.contents.map((t) => {
-    return t.content === webPage.headline ? (
+  const renderText = reading.contents.map((t) => {
+    return t.content === reading.title ? (
       <div key={t.id}></div>
     ) : (
       getTextNodeByTag(t)
@@ -48,16 +48,16 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
       {wordPopupSetting.shown && (
         <TranslationPopupComp
           word={wordPopupSetting.word}
-          htmlPageId={webPage.id}
+          htmlPageId={reading.id}
           close={handleClose}
         ></TranslationPopupComp>
       )}
-      <h1>{webPage.headline ?? webPage.pageTitle}</h1>
+      <h1>{reading.title}</h1>
       {firstImgComp && firstImgComp}
       {renderText}
-      <footer key={webPage.id}>
+      <footer key={reading.id}>
         <p className="text-sm text-gray-400 italic">
-          Page Source: {webPage.uri}
+          Page Source: {reading.source}
         </p>
       </footer>
     </div>
@@ -91,7 +91,7 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
     }
   }
 
-  function getTextNodeByTag(t: HtmlContentItem): JSX.Element {
+  function getTextNodeByTag(t: ContentItem): JSX.Element {
     switch (t.tag) {
       case "h1":
         return <h1 key={t.id}>{t.content}</h1>;

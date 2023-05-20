@@ -1,6 +1,6 @@
 import ReadingComp from "./ReadingComp";
-import ReadingWAuthorAndLang from "../../../types/ReadingWAuthorsAndLanguage";
-import prisma from "../../../lib/prisma";
+import ReadingWAuthorAndLang from "types/ReadingWAuthorsAndLanguage";
+import prisma from "lib/prisma";
 
 export default async function Reading({
   params,
@@ -16,7 +16,7 @@ export default async function Reading({
 const getReadings = async (id: string) => {
   const reading = await prisma.reading.findUnique({
     where: { id: parseInt(id) },
-    include: { authors: true, language: true },
+    include: { authors: true, language: true, contents: true },
   });
 
   return reading!;

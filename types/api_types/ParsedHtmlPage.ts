@@ -6,10 +6,6 @@ type ParsedHtmlPage = {
    */
   pageTitle?: string;
   /**
-   * first h1 in the page, news title
-   */
-  headline?: string;
-  /**
    * page elements such as img, h1, h2, p, blockquote
    * dump html content of ul, table and non-standard text nodes
    */
