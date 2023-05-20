@@ -1,10 +1,13 @@
 import prisma from "lib/prisma";
 import HomePage from "./home-page";
+import HtmlPageWContentAndLanguage from "types/HtmlPageWContentAndLanguage";
+import ReadingWAuthorAndLang from "types/ReadingWAuthorsAndLanguage";
 
 export default async function Page() {
   const readingContents = await getReadingContents();
   return (
     <HomePage
+      continueReadings={readingContents.continueReadings}
       readings={readingContents.readings}
       importedWebPages={readingContents.importedWebPages}
     />
@@ -24,6 +27,11 @@ async function getReadingContents() {
       language: true,
     },
   });
+  //TODO populate this with readings the user started previously
+  const continueReadings: (
+    | HtmlPageWContentAndLanguage
+    | ReadingWAuthorAndLang
+  )[] = [];
 
-  return { readings, importedWebPages };
+  return { readings, importedWebPages, continueReadings };
 }

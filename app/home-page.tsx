@@ -7,11 +7,12 @@ import ReadingWAuthorAndLang from "types/ReadingWAuthorsAndLanguage";
 import HtmlPageWContentAndLanguage from "types/HtmlPageWContentAndLanguage";
 
 type PropsType = {
+  continueReadings: (HtmlPageWContentAndLanguage | ReadingWAuthorAndLang)[];
   readings: ReadingWAuthorAndLang[];
   importedWebPages: HtmlPageWContentAndLanguage[];
 };
 
-const Home = ({ readings, importedWebPages }: PropsType) => {
+const Home = ({ continueReadings, readings, importedWebPages }: PropsType) => {
   return (
     <div className="mx-4 my-4">
       <main className="">
