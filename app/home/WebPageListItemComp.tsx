@@ -1,4 +1,4 @@
-import HtmlPageWContentAndLanguage from "../../types/HtmlPageWContentAndLanguage";
+import HtmlPageWContentAndLanguage from "types/HtmlPageWContentAndLanguage";
 import Link from "next/link";
 import DeleteButton from "../components/DeleteButton";
 

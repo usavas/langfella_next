@@ -3,8 +3,8 @@
 import ReadingListComp from "./home/ReadingListComp";
 import ImportedWebPages from "./home/WebPageListComp";
 import Link from "next/link";
-import ReadingWAuthorAndLang from "../types/ReadingWAuthorsAndLanguage";
-import HtmlPageWContentAndLanguage from "../types/HtmlPageWContentAndLanguage";
+import ReadingWAuthorAndLang from "types/ReadingWAuthorsAndLanguage";
+import HtmlPageWContentAndLanguage from "types/HtmlPageWContentAndLanguage";
 
 type PropsType = {
   readings: ReadingWAuthorAndLang[];

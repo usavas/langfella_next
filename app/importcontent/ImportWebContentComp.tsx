@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import ParsedHtmlPage from "../../types/api_types/ParsedHtmlPage";
-import HtmlPageCreateInputs from "../../types/api_types/HtmlPageCreateInputs";
+import ParsedHtmlPage from "types/api_types/ParsedHtmlPage";
+import HtmlPageCreateInputs from "types/api_types/HtmlPageCreateInputs";
 import { useRouter } from "next/navigation";
 
 function ImportWebContentComp() {

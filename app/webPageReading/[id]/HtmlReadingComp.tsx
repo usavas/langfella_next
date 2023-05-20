@@ -1,8 +1,8 @@
 "use client";
 
 import { ReactElement, useState } from "react";
-import TranslationPopupComp from "../../components/TranslationPopupComp";
-import HtmlPageWContentAndLanguage from "../../../types/HtmlPageWContentAndLanguage";
+import TranslationPopupComp from "app/components/TranslationPopupComp";
+import HtmlPageWContentAndLanguage from "types/HtmlPageWContentAndLanguage";
 import { HtmlContentItem } from "@prisma/client";
 
 type Props = {

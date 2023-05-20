@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import TranslationPopupComp from "../../components/TranslationPopupComp";
-import ReadingWAuthorAndLang from "../../../types/ReadingWAuthorsAndLanguage";
+import TranslationPopupComp from "app/components/TranslationPopupComp";
+import ReadingWAuthorAndLang from "types/ReadingWAuthorsAndLanguage";
 
 type Props = {
   reading: ReadingWAuthorAndLang;
