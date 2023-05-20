@@ -1,7 +1,6 @@
-import React from "react";
 import HtmlPageWContentAndLanguage from "../../types/HtmlPageWContentAndLanguage";
 import Link from "next/link";
-import DeleteButton from "./DeleteButton";
+import DeleteButton from "../components/DeleteButton";
 
 type PropTypes = {
   webPage: HtmlPageWContentAndLanguage;

@@ -1,6 +1,6 @@
 import ReadingWAuthorAndLang from "../../types/ReadingWAuthorsAndLanguage";
 import Link from "next/link";
-import DeleteButton from "./DeleteButton";
+import DeleteButton from "../components/DeleteButton";
 
 type Props = {
   reading: ReadingWAuthorAndLang;

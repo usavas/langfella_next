@@ -85,6 +85,7 @@ const TranslationPopupComp = (props: Props) => {
 
   function handleSpeech() {
     var msg = new SpeechSynthesisUtterance();
+    msg.rate = 0.8;
     msg.text = props.word;
     msg.lang = "es"; //TODO get the language of the reading text for actual speech language
     window.speechSynthesis.speak(msg);

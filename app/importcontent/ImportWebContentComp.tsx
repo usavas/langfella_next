@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import ParsedHtmlPage from "../../types/api_types/ParsedHtmlPage";
 import HtmlPageCreateInputs from "../../types/api_types/HtmlPageCreateInputs";
+import { useRouter } from "next/navigation";
 
 function ImportWebContentComp() {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const [source, setSource] = useState("");
   const [clipBoardContent, setClipBoardContent] = useState("");
   const [label, setLabel] = useState({ text: "", ok: false });
@@ -86,6 +89,10 @@ function ImportWebContentComp() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(htmlPageCreateArgs),
+      });
+
+      startTransition(() => {
+        router.refresh();
       });
 
       setLabel({ text: "Website content imported", ok: true });

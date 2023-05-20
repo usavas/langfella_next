@@ -1,4 +1,3 @@
-import { GetServerSideProps } from "next";
 import prisma from "../../lib/prisma";
 import { Word } from "@prisma/client";
 import WordComp from "./WordComp";
