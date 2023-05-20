@@ -10,11 +10,13 @@ function ImportTextContentComp() {
     <div>
       <h6>Import Text Content</h6>
       <div className="input-group flex flex-col gap-2">
-        <input
+        <textarea
           id="source"
-          className="input-text"
+          className="input-text line-clamp-4 "
           onChange={handleSourceInput}
-        ></input>
+          placeholder="Paste your content here"
+          rows={6}
+        ></textarea>
         <button className="btn-primary" onClick={importContent}>
           Import
         </button>

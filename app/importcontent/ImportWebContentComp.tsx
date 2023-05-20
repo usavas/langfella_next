@@ -33,6 +33,7 @@ function ImportWebContentComp() {
           value={source}
           className="input-text"
           onChange={handleSourceInput}
+          placeholder="Paste the website url here"
         ></input>
         {clipBoardContent && (
           <button
