@@ -30,8 +30,12 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
     );
   }
 
-  const renderText = webPage.contents.map((t, i) => {
-    return getTextNodeByTag(t, i);
+  const renderText = webPage.contents.map((t) => {
+    return t.content === webPage.headline ? (
+      <div key={t.id}></div>
+    ) : (
+      getTextNodeByTag(t)
+    );
   });
 
   return (
@@ -41,7 +45,6 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
       onTouchEndCapture={handleSelection}
       onMouseUp={handleSelection}
     >
-      {console.log("frontend")}
       {wordPopupSetting.shown && (
         <TranslationPopupComp
           word={wordPopupSetting.word}
@@ -52,6 +55,11 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
       <h1>{webPage.headline ?? webPage.pageTitle}</h1>
       {firstImgComp && firstImgComp}
       {renderText}
+      <footer key={webPage.id}>
+        <p className="text-sm text-gray-400 italic">
+          Page Source: {webPage.uri}
+        </p>
+      </footer>
     </div>
   );
 
@@ -67,7 +75,8 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
   function handleSelection(e: any): void {
     const selectedString = window.getSelection()?.toString();
 
-    if (!selectedString) {
+    // limit the word selection by 3 words for now.
+    if (!selectedString || selectedString.split(" ").length > 3) {
       prevSelection = "";
       return;
     }
@@ -82,28 +91,28 @@ function HtmlReadingComp({ webPage: webPage }: Props) {
     }
   }
 
-  function getTextNodeByTag(t: HtmlContentItem, i: number): JSX.Element {
+  function getTextNodeByTag(t: HtmlContentItem): JSX.Element {
     switch (t.tag) {
       case "h1":
-        return <h1 key={i}>{t.content}</h1>;
+        return <h1 key={t.id}>{t.content}</h1>;
       case "h2":
-        return <h2 key={i}>{t.content}</h2>;
+        return <h2 key={t.id}>{t.content}</h2>;
       case "h3":
-        return <h3 key={i}>{t.content}</h3>;
+        return <h3 key={t.id}>{t.content}</h3>;
       case "h4":
-        return <h4 key={i}>{t.content}</h4>;
+        return <h4 key={t.id}>{t.content}</h4>;
       case "h5":
-        return <h5 key={i}>{t.content}</h5>;
+        return <h5 key={t.id}>{t.content}</h5>;
       case "h6":
-        return <h6 key={i}>{t.content}</h6>;
+        return <h6 key={t.id}>{t.content}</h6>;
       case "p":
         return (
-          <p className="word" key={i}>
+          <p className="word" key={t.id}>
             {t.content}
           </p>
         );
       default:
-        return <div key={i}></div>;
+        return <div key={t.id}></div>;
     }
   }
 }

@@ -24,6 +24,8 @@ const DeleteButton = (props: PropTypes) => {
     } catch (error) {
       console.error(error);
     }
+    //NOTE have to use this for updating the UI.
+    // the advantage of this is I don't have to use useState and useEffect to achieve the same result
     startTransition(() => {
       router.refresh();
     });
