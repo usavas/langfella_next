@@ -6,8 +6,8 @@ export async function POST(request: Request) {
   const { htmlPage, source, languageCode } =
     (await request.json()) as HtmlPageCreateInputs;
 
-  await prisma.htmlPage
-    .create({
+  try {
+    const result = await prisma.htmlPage.create({
       data: {
         headline: htmlPage.headline ?? "",
         pageTitle: htmlPage.pageTitle ?? "",
@@ -15,12 +15,10 @@ export async function POST(request: Request) {
         contents: { createMany: { data: htmlPage.elements } },
         language: { connect: { code: languageCode } },
       },
-    })
-    .then((response) => {
-      return NextResponse.json(response);
-    })
-    .catch((err) => {
-      console.log({ err });
-      return new Response(err, { status: 500 });
     });
+    return NextResponse.json(result);
+  } catch (error: any) {
+    console.log({ error });
+    return new Response(error, { status: 500 });
+  }
 }

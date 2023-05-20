@@ -6,15 +6,13 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   const reading = (await request.json()) as Reading;
 
-  prisma.reading
-    .create({
+  try {
+    const result = prisma.reading.create({
       data: reading,
-    })
-    .then((response) => {
-      return NextResponse.json(response);
-    })
-    .catch((err) => {
-      console.log({ err });
-      return new Response(err, { status: 500 });
     });
+    return NextResponse.json(result);
+  } catch (error: any) {
+    console.log({ error });
+    return new Response(error, { status: 500 });
+  }
 }

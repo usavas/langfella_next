@@ -14,15 +14,13 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const word = (await request.json()) as Prisma.WordCreateArgs["data"];
 
-  await prisma.word
-    .create({
+  try {
+    const result = await prisma.word.create({
       data: word,
-    })
-    .then((response) => {
-      return NextResponse.json(response);
-    })
-    .catch((err) => {
-      console.error({ err });
-      return new Response(err, { status: 500 });
     });
+    return NextResponse.json(result);
+  } catch (error: any) {
+    console.error({ error });
+    return new Response(error, { status: 500 });
+  }
 }
