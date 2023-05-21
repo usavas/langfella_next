@@ -4,6 +4,7 @@ import { useEffect, useState, useTransition } from "react";
 import ParsedHtmlPage from "types/api_types/ParsedHtmlPage";
 import HtmlPageCreateInputs from "types/api_types/HtmlPageCreateInputs";
 import { useRouter } from "next/navigation";
+import { Reading } from "@prisma/client";
 
 function ImportWebContentComp() {
   const [isPending, startTransition] = useTransition();
@@ -75,6 +76,7 @@ function ImportWebContentComp() {
     }
 
     try {
+      //TODO can fetch the hmlt directly (without api)
       const response = await fetch(
         "/api/fetchHtml?url=" + encodeURIComponent(source)
       );
@@ -91,12 +93,16 @@ function ImportWebContentComp() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(htmlPageCreateArgs),
       });
+      const createdPage = (await postResult.json()) as Reading;
 
       startTransition(() => {
         router.refresh();
       });
 
       setLabel({ text: "Website content imported", ok: true });
+      setTimeout(() => {
+        router.replace(`webPageReading/${createdPage.id}`); // goes to home screen
+      }, 500);
     } catch (error) {
       setLabel({ text: "Content could not be imported", ok: false });
     }
