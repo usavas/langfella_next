@@ -1,13 +1,19 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function BottomNavigation() {
+  const pathname = usePathname();
   return (
     <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600">
       <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
         <Link
           href="/"
           type="button"
-          className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+          className={`${
+            pathname === "/" ? "bg-gray-50 dark:bg-gray-900 " : ""
+          } inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800  group `}
         >
           <svg
             className="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
@@ -26,7 +32,9 @@ function BottomNavigation() {
         <Link
           href="/words"
           type="button"
-          className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+          className={`${
+            pathname?.startsWith("/words") ? "bg-gray-50 dark:bg-gray-900 " : ""
+          }  inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group`}
         >
           <svg
             className="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
@@ -49,7 +57,11 @@ function BottomNavigation() {
         <Link
           href="/settings"
           type="button"
-          className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+          className={`${
+            pathname?.startsWith("/settings")
+              ? "bg-gray-50 dark:bg-gray-900 "
+              : ""
+          }  inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group`}
         >
           <svg
             className="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
@@ -67,7 +79,11 @@ function BottomNavigation() {
         <Link
           href="/profile"
           type="button"
-          className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+          className={`${
+            pathname?.startsWith("/profile")
+              ? "bg-gray-50 dark:bg-gray-900 "
+              : ""
+          }  inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group`}
         >
           <svg
             className="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
