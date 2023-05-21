@@ -12,7 +12,7 @@ import BottomNavigation from "./components/BottomNavigation";
 
 export default function MyApp({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html className="dark">
       <Head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
