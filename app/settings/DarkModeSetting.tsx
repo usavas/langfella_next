@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react";
 
 type Props = {
-  title: String;
   type?: "checkbox";
 };
 
-const SettingItem = (props: Props) => {
+const DarkModeSetting = (props: Props) => {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
@@ -24,7 +23,7 @@ const SettingItem = (props: Props) => {
   return (
     <div className="flex flex-row py-4 justify-between">
       <span className=" text-sm font-medium text-gray-900 dark:text-gray-300">
-        {props.title}
+        Dark Mode
       </span>
       <label className="relative inline-flex items-center cursor-pointer">
         <input
@@ -51,4 +50,4 @@ const SettingItem = (props: Props) => {
   }
 };
 
-export default SettingItem;
+export default DarkModeSetting;
