@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * This error is shown when an error occurs
  *  in layout and other components at the root level
