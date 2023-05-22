@@ -37,6 +37,7 @@ function ReadingComp({ reading }: Props) {
         <TranslationPopupComp
           word={wordPopupSetting.word}
           readingId={reading.id}
+          language={reading.language}
           close={handleClose}
         ></TranslationPopupComp>
       )}

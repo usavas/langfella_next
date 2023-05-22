@@ -49,6 +49,7 @@ function HtmlReadingComp({ webPage: reading }: Props) {
         <TranslationPopupComp
           word={wordPopupSetting.word}
           htmlPageId={reading.id}
+          language={reading.language}
           close={handleClose}
         ></TranslationPopupComp>
       )}

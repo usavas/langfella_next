@@ -7,13 +7,14 @@
  * target language Id
  */
 
-import { Word, Prisma } from "@prisma/client";
+import { Word, Prisma, Language } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 type Props = {
   word: string;
   readingId?: number;
   htmlPageId?: number;
+  language: Language;
   close: () => void;
 };
 
@@ -85,9 +86,9 @@ const TranslationPopupComp = (props: Props) => {
 
   function handleSpeech() {
     var msg = new SpeechSynthesisUtterance();
-    msg.rate = 0.8;
+    msg.rate = 0.8; // too fast on google chrome (non-understandable)
     msg.text = props.word;
-    msg.lang = "es"; //TODO get the language of the reading text for actual speech language
+    msg.lang = props.language.code;
     window.speechSynthesis.speak(msg);
   }
 
@@ -111,8 +112,8 @@ const TranslationPopupComp = (props: Props) => {
       text: props.word,
       translation: [translation],
       ...readingIds,
-      sourceLangId: 1,
-      targetLangId: 2,
+      sourceLangId: props.language.id,
+      targetLangId: 2, //TODO get this from global app settings
       status: "1", // default status is 1. (means not familiar with this newly added word)
       // exampleSentences: [""], //TODO impl example sentence feature.
     };
