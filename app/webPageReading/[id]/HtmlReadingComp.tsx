@@ -12,12 +12,14 @@ type Props = {
 type WordPopupSettings = {
   word: string;
   shown: boolean;
+  location?: { x: number; y: number };
 };
 
 function HtmlReadingComp({ webPage: reading }: Props) {
   const [wordPopupSetting, setWordPopupSetting] = useState<WordPopupSettings>({
     word: "",
     shown: false,
+    location: { x: 0, y: 0 },
   });
 
   let prevSelection: string = "";
@@ -39,94 +41,95 @@ function HtmlReadingComp({ webPage: reading }: Props) {
   });
 
   return (
-    <div
-      className="max-w-3xl mx-4 my-8"
-      onTouchEndCapture={handleSelection}
-      onMouseUp={handleSelection}
-    >
-      {wordPopupSetting.shown && (
-        <TranslationPopupComp
-          word={wordPopupSetting.word}
-          htmlPageId={reading.id}
-          language={reading.language}
-          close={handleClose}
-        ></TranslationPopupComp>
-      )}
-      <h1>{reading.title}</h1>
-      {firstImgComp && firstImgComp}
-      {renderText}
-      <footer key={reading.id}>
-        <p className="text-sm text-gray-400 italic">
-          Page Source: {reading.source}
-        </p>
-      </footer>
+    <div>
+      <div
+        className="max-w-3xl mx-4 my-8"
+        onTouchEnd={handleSelection}
+        onMouseUp={handleSelection}
+      >
+        {wordPopupSetting.shown && (
+          <TranslationPopupComp
+            word={wordPopupSetting.word}
+            htmlPageId={reading.id}
+            readingLang={reading.language}
+            location={wordPopupSetting.location ?? { x: 0, y: 0 }}
+            close={handleClose}
+          ></TranslationPopupComp>
+        )}
+        <h1>{reading.title}</h1>
+        {firstImgComp && firstImgComp}
+        {renderText}
+        <footer key={reading.id}>
+          <p className="text-sm text-gray-400 italic">
+            Page Source: {reading.source}
+          </p>
+        </footer>
+      </div>
     </div>
   );
 
   function handleClose() {
-    setWordPopupSetting({ shown: false, word: "" });
+    setWordPopupSetting({ shown: false, word: "", location: { x: 0, y: 0 } });
   }
 
   /**
    *
-   * @param e
+   * @param evt
    * @returns Handle text selection for both mouse and touch selection
    */
-  function handleSelection(e: any): void {
+  function handleSelection(evt: any): void {
     const selection = window.getSelection();
     const selectedString = selection?.toString();
 
-    // selected nodes must be text nodes
-    if (
-      !IsSelectionValid(selection) ||
-      selection === null ||
-      selection.anchorNode === null ||
-      selection.anchorNode.textContent === null ||
-      selection.anchorNode !== selection.focusNode
-      // || !IsSelectionTextNode(selection)
-    ) {
-      return;
-    }
+    // // selected nodes must be text nodes
+    // if (
+    //   !IsSelectionValid(selection) ||
+    //   selection === null ||
+    //   selection.anchorNode === null ||
+    //   selection.anchorNode.textContent === null ||
+    //   selection.anchorNode !== selection.focusNode
+    //   // || !IsSelectionTextNode(selection)
+    // ) {
+    //   return;
+    // }
 
-    // limit the word selection by 3 words for now.
-    if (!selectedString || selectedString.split(" ").length > 3) {
-      prevSelection = "";
-      return;
-    }
+    // // limit the word selection by 3 words for now.
+    // if (!selectedString || selectedString.split(" ").length > 3) {
+    //   prevSelection = "";
+    //   return;
+    // }
 
-    // get start and end positions
-    let startPos = selection.anchorOffset;
-    let endPos = selection.focusOffset;
-    if (selection.anchorOffset - selection.focusOffset > 0) {
-      startPos = selection.focusOffset;
-      endPos = selection.anchorOffset;
-    }
+    // // get start and end positions
+    // let startPos = selection.anchorOffset;
+    // let endPos = selection.focusOffset;
+    // if (selection.anchorOffset - selection.focusOffset > 0) {
+    //   startPos = selection.focusOffset;
+    //   endPos = selection.anchorOffset;
+    // }
 
-    // TODO disregard punctuations just like space (" ") char
-    while (startPos > 0 && getCharAt(startPos - 1) !== " ") {
-      if (getCharAt(startPos) === " ") {
-        startPos++;
-        break;
-      }
-      startPos--;
-    }
+    // // TODO disregard punctuations just like space (" ") char
+    // while (startPos > 0 && getCharAt(startPos - 1) !== " ") {
+    //   if (getCharAt(startPos) === " ") {
+    //     startPos++;
+    //     break;
+    //   }
+    //   startPos--;
+    // }
 
-    while (
-      endPos < selection.anchorNode.textContent.length - 1 &&
-      getCharAt(endPos) !== " "
-    ) {
-      if (getCharAt(endPos) === " ") {
-        console.log("trimmed");
-        endPos--;
-        break;
-      }
+    // while (
+    //   endPos < selection.anchorNode.textContent.length - 1 &&
+    //   getCharAt(endPos) !== " "
+    // ) {
+    //   if (getCharAt(endPos) === " ") {
+    //     endPos--;
+    //     break;
+    //   }
 
-      endPos++;
-      console.log(getCharAt(endPos));
-    }
+    //   endPos++;
+    // }
 
-    // make the new selection
-    overrideLastSelectionOnWindow(selection, startPos, endPos);
+    // // make the new selection
+    // overrideLastSelectionOnWindow(selection, startPos, endPos);
 
     const updatedSelectionString = window.getSelection()?.toString();
 
@@ -137,7 +140,11 @@ function HtmlReadingComp({ webPage: reading }: Props) {
       prevSelection = updatedSelectionString;
 
       // show popup for translation
-      setWordPopupSetting({ shown: true, word: updatedSelectionString });
+      setWordPopupSetting({
+        shown: true,
+        word: updatedSelectionString,
+        location: { x: evt.target.X, y: evt.target.Y },
+      });
     }
 
     function getCharAt(i: number): string {
