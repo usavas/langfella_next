@@ -11,12 +11,14 @@ type Props = {
 type WordPopupSettings = {
   word: string;
   shown: boolean;
+  location?: { x: number; y: number };
 };
 
 function ReadingComp({ reading }: Props) {
   const [wordPopupSetting, setWordPopupSetting] = useState<WordPopupSettings>({
     word: "",
     shown: false,
+    location: { x: 0, y: 0 },
   });
 
   let prevSelection: string = "";
@@ -37,7 +39,8 @@ function ReadingComp({ reading }: Props) {
         <TranslationPopupComp
           word={wordPopupSetting.word}
           readingId={reading.id}
-          readingLangCode={reading.language}
+          readingLang={reading.language}
+          location={{ x: 0, y: 0 }}
           close={handleClose}
         ></TranslationPopupComp>
       )}
