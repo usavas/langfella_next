@@ -44,7 +44,7 @@ function HtmlReadingComp({ webPage: reading }: Props) {
     <div>
       <div
         className="max-w-3xl mx-4 my-8"
-        onTouchEnd={handleSelection}
+        onTouchStart={handleSelection}
         onMouseUp={handleSelection}
       >
         {wordPopupSetting.shown && (
@@ -81,64 +81,63 @@ function HtmlReadingComp({ webPage: reading }: Props) {
     const selection = window.getSelection();
     const selectedString = selection?.toString();
 
-    // // selected nodes must be text nodes
-    // if (
-    //   !IsSelectionValid(selection) ||
-    //   selection === null ||
-    //   selection.anchorNode === null ||
-    //   selection.anchorNode.textContent === null ||
-    //   selection.anchorNode !== selection.focusNode
-    //   // || !IsSelectionTextNode(selection)
-    // ) {
-    //   return;
-    // }
+    // selected nodes must be text nodes
+    if (
+      !IsSelectionValid(selection) ||
+      selection === null ||
+      selection.anchorNode === null ||
+      selection.anchorNode.textContent === null ||
+      selection.anchorNode !== selection.focusNode
+      // || !IsSelectionTextNode(selection)
+    ) {
+      return;
+    }
 
-    // // limit the word selection by 3 words for now.
-    // if (!selectedString || selectedString.split(" ").length > 3) {
-    //   prevSelection = "";
-    //   return;
-    // }
+    // limit the word selection by 3 words for now.
+    if (!selectedString || selectedString.split(" ").length > 3) {
+      prevSelection = "";
+      return;
+    }
 
-    // // get start and end positions
-    // let startPos = selection.anchorOffset;
-    // let endPos = selection.focusOffset;
-    // if (selection.anchorOffset - selection.focusOffset > 0) {
-    //   startPos = selection.focusOffset;
-    //   endPos = selection.anchorOffset;
-    // }
+    // get start and end positions
+    let startPos = selection.anchorOffset;
+    let endPos = selection.focusOffset;
+    if (selection.anchorOffset - selection.focusOffset > 0) {
+      startPos = selection.focusOffset;
+      endPos = selection.anchorOffset;
+    }
 
-    // // TODO disregard punctuations just like space (" ") char
-    // while (startPos > 0 && getCharAt(startPos - 1) !== " ") {
-    //   if (getCharAt(startPos) === " ") {
-    //     startPos++;
-    //     break;
-    //   }
-    //   startPos--;
-    // }
+    // TODO disregard punctuations just like space (" ") char
+    while (startPos > 0 && getCharAt(startPos - 1) !== " ") {
+      if (getCharAt(startPos) === " ") {
+        startPos++;
+        break;
+      }
+      startPos--;
+    }
 
-    // while (
-    //   endPos < selection.anchorNode.textContent.length - 1 &&
-    //   getCharAt(endPos) !== " "
-    // ) {
-    //   if (getCharAt(endPos) === " ") {
-    //     endPos--;
-    //     break;
-    //   }
-
-    //   endPos++;
-    // }
-
-    // // make the new selection
-    // overrideLastSelectionOnWindow(selection, startPos, endPos);
+    while (
+      endPos < selection.anchorNode.textContent.length - 1 &&
+      getCharAt(endPos) !== " "
+    ) {
+      if (getCharAt(endPos) === " ") {
+        endPos--;
+        break;
+      }
+      endPos++;
+    }
 
     const updatedSelectionString = window.getSelection()?.toString();
 
     if (prevSelection === updatedSelectionString) {
       return;
     }
+
+    // make the new selection
+    overrideLastSelectionOnWindow(selection, startPos, endPos);
+
     if (updatedSelectionString) {
       prevSelection = updatedSelectionString;
-
       // show popup for translation
       setWordPopupSetting({
         shown: true,
