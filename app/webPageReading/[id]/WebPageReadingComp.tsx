@@ -107,7 +107,7 @@ function HtmlReadingComp({ webPage: reading }: Props) {
       endPos = selection.anchorOffset;
     }
 
-    // TODO disregard punctuations just like space (" ") char
+    // TODO disregard punctuations just like space (" ") char ???
     while (startPos > 0 && getCharAt(startPos - 1) !== " ") {
       if (getCharAt(startPos) === " ") {
         startPos++;
@@ -127,14 +127,13 @@ function HtmlReadingComp({ webPage: reading }: Props) {
       endPos++;
     }
 
+    // make the new selection
+    overrideLastSelectionOnWindow(selection, startPos, endPos);
     const updatedSelectionString = window.getSelection()?.toString();
 
     if (prevSelection === updatedSelectionString) {
       return;
     }
-
-    // make the new selection
-    overrideLastSelectionOnWindow(selection, startPos, endPos);
 
     if (updatedSelectionString) {
       prevSelection = updatedSelectionString;
