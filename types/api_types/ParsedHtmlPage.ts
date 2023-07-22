@@ -1,5 +1,3 @@
-import { HtmlItemTag } from "@prisma/client";
-
 type ParsedHtmlPage = {
   /**
    * page title (in the address bar)
@@ -11,9 +9,9 @@ type ParsedHtmlPage = {
    */
   elements: {
     /**
-     * from prisma, set of html elements (h1-h6, p, blockquote)
+     * set of html elements (h1-h6, p, blockquote)
      */
-    tag: HtmlItemTag;
+    tag: string;
     /**
      * text content of the html element
      * src for image,

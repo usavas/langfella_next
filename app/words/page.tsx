@@ -1,11 +1,7 @@
-import prisma from "lib/prisma";
-import { Word } from "@prisma/client";
+import { Word } from "app/apitypes/word-types";
 import WordComp from "./WordComp";
-
-type WordWLangs = Word & {
-  sourceLanguage: { name: string; code: string };
-  targetLanguage: { name: string; code: string };
-};
+import axios from "axios";
+import ApiSettings from "app/api/apisettings";
 
 const Words = async () => {
   const words = await getWordList();
@@ -22,14 +18,10 @@ const Words = async () => {
   );
 };
 
-async function getWordList() {
-  const words = await prisma.word.findMany({
-    include: {
-      sourceLanguage: { select: { name: true, code: true } },
-      targetLanguage: { select: { name: true, code: true } },
-    },
-  });
-
+async function getWordList(): Promise<Word[]> {
+  const words: Word[] = await axios.get(
+    ApiSettings.baseUri + "/words/GetWords"
+  );
   return words;
 }
 

@@ -1,5 +1,4 @@
 import cheerio from "cheerio";
-import { HtmlItemTag } from "@prisma/client";
 
 export type HtmlPage = {
   pageTitle: string;
@@ -7,7 +6,7 @@ export type HtmlPage = {
 };
 
 export type HtmlContent = {
-  tag: HtmlItemTag;
+  tag: string;
   content: string;
 };
 
@@ -33,7 +32,7 @@ const parseHtml = async (htmlContent: string): Promise<HtmlPage> => {
   const nodesResult: HtmlContent[] = [];
   for (let i = 0; i < nodes.length; i++) {
     const element = nodes[i];
-    const tag: HtmlItemTag = $(element).prop("tagName").toLowerCase();
+    const tag: string = $(element).prop("tagName").toLowerCase();
     let content: string = "";
 
     if (tag === "img") {

@@ -1,6 +1,7 @@
-import prisma from "lib/prisma";
+import axios from "axios";
 import HomePage from "./home-page";
-import ReadingWAuthorAndLang from "types/ReadingWAuthorsAndLanguage";
+import ApiSettings from "./api/apisettings";
+import { Article } from "./apitypes/articles/article-types";
 
 export default async function Page() {
   const readingContents = await getReadingContents();
@@ -13,15 +14,11 @@ export default async function Page() {
 }
 
 async function getReadingContents() {
-  const readings = await prisma.reading.findMany({
-    include: {
-      contents: true,
-      authors: true,
-      language: true,
-    },
-  });
+  const readings: Article[] = await axios.get(
+    ApiSettings.baseUri + "/Articles/GetArticles"
+  );
   //TODO populate this with readings the user started previously
-  const continueReadings: ReadingWAuthorAndLang[] = [];
+  const continueReadings: Article[] = [];
 
   return { readings, continueReadings };
 }

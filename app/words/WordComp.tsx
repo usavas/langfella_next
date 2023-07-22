@@ -1,4 +1,4 @@
-import { Word } from "@prisma/client";
+import { Word } from "app/apitypes/word-types";
 import DeleteButton from "app/components/DeleteButton";
 
 function WordComp({ word }: { word: Word }) {
@@ -9,7 +9,7 @@ function WordComp({ word }: { word: Word }) {
           {word.text}
         </p>
         <p className="text-sm text-gray-500 truncate dark:text-gray-500 text-ellipsis">
-          {word.translation}
+          {word.translations[0]}
         </p>
         <p className="mt-2 italic text-sm text-gray-600 line-clamp-2">
           {word.exampleSentences.join(", ")}

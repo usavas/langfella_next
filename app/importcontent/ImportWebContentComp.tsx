@@ -4,7 +4,8 @@ import { useEffect, useState, useTransition } from "react";
 import ParsedHtmlPage from "types/api_types/ParsedHtmlPage";
 import HtmlPageCreateInputs from "types/api_types/HtmlPageCreateInputs";
 import { useRouter } from "next/navigation";
-import { Reading } from "@prisma/client";
+import { Article } from "app/apitypes/articles/article-types";
+import axios from "axios";
 
 function ImportWebContentComp() {
   const [isPending, startTransition] = useTransition();
@@ -88,12 +89,11 @@ function ImportWebContentComp() {
         languageCode: "en",
       };
 
-      const postResult = await fetch("/api/htmlpages", {
-        method: "POST",
+      const postResult = await axios.post("/api/htmlpages", {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(htmlPageCreateArgs),
       });
-      const createdPage = (await postResult.json()) as Reading;
+      const createdPage = (await postResult.data) as Article;
 
       startTransition(() => {
         router.refresh();

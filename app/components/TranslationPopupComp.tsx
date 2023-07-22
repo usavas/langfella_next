@@ -7,20 +7,19 @@
  * target language Id
  */
 
-import { Word, Prisma, Language } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 type Props = {
   word: string;
   readingId?: number;
-  htmlPageId?: number;
-  readingLang: Language;
+  articleId?: string;
+  readingLangCode: string;
   location: { x: number; y: number };
   close: () => void;
 };
 
 const TranslationPopupComp = (props: Props) => {
-  const { close, word, htmlPageId, location, readingId } = props;
+  const { close, word, articleId, location, readingId } = props;
 
   const [translation, setTranslation] = useState<string>("");
 
@@ -30,7 +29,7 @@ const TranslationPopupComp = (props: Props) => {
         "/api/translations?word=" +
         props.word +
         "&source=" +
-        props.readingLang.code +
+        props.readingLangCode +
         "&target=" +
         "en";
 
@@ -89,7 +88,7 @@ const TranslationPopupComp = (props: Props) => {
     var msg = new SpeechSynthesisUtterance();
     msg.rate = 0.8; // too fast on google chrome (non-understandable)
     msg.text = props.word;
-    msg.lang = props.readingLang.code;
+    msg.lang = props.readingLangCode;
     window.speechSynthesis.speak(msg);
   }
 
@@ -102,21 +101,11 @@ const TranslationPopupComp = (props: Props) => {
     }
 
     let readingIds = {};
-    if (htmlPageId) {
-      readingIds = { htmlPageId };
+    if (articleId) {
+      readingIds = { articleId };
     } else if (readingId) {
       readingIds = { readingId };
     }
-
-    const word: Prisma.WordCreateArgs["data"] = {
-      text: props.word,
-      translation: [translation],
-      ...readingIds,
-      sourceLangId: props.readingLang.id,
-      targetLangId: 2, //TODO get this from global app settings
-      status: "1", // default status is 1. (means not familiar with this newly added word)
-      // exampleSentences: [""], //TODO impl example sentence feature.
-    };
 
     await fetch("/api/words", {
       method: "POST",

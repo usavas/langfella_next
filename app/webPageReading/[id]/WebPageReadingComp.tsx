@@ -1,12 +1,11 @@
 "use client";
 
-import { ReactElement, useState } from "react";
+import { useState } from "react";
 import TranslationPopupComp from "app/components/TranslationPopupComp";
-import ReadingWAuthorsAndLanguage from "types/ReadingWAuthorsAndLanguage";
-import { ContentItem } from "@prisma/client";
+import { Article, Content } from "app/apitypes/articles/article-types";
 
 type Props = {
-  webPage: ReadingWAuthorsAndLanguage;
+  webPage: Article;
 };
 
 type WordPopupSettings = {
@@ -24,20 +23,8 @@ function HtmlReadingComp({ webPage: reading }: Props) {
 
   let prevSelection: string = "";
 
-  let firstImgComp: ReactElement | null = null;
-  const firstImage = reading.contents.find((i: ContentItem) => i.tag === "img");
-  if (firstImage) {
-    firstImgComp = (
-      <img src={firstImage.content} alt="Main image of the article" />
-    );
-  }
-
-  const renderText = reading.contents.map((t) => {
-    return t.content === reading.title ? (
-      <div key={t.id}></div>
-    ) : (
-      getTextNodeByTag(t)
-    );
+  const renderText = reading.chapters[0].contents.map((c) => {
+    getTextNodeByTag(c);
   });
 
   return (
@@ -50,14 +37,14 @@ function HtmlReadingComp({ webPage: reading }: Props) {
         {wordPopupSetting.shown && (
           <TranslationPopupComp
             word={wordPopupSetting.word}
-            htmlPageId={reading.id}
-            readingLang={reading.language}
+            articleId={reading.id}
+            readingLangCode={reading.languageId.toString()}
             location={wordPopupSetting.location ?? { x: 0, y: 0 }}
             close={handleClose}
           ></TranslationPopupComp>
         )}
         <h1>{reading.title}</h1>
-        {firstImgComp && firstImgComp}
+        {/* {firstImgComp && firstImgComp} */}
         {renderText}
         <footer key={reading.id}>
           <p className="text-sm text-gray-400 italic">
@@ -175,7 +162,7 @@ function HtmlReadingComp({ webPage: reading }: Props) {
     // }
   }
 
-  function getTextNodeByTag(t: ContentItem): JSX.Element {
+  function getTextNodeByTag(t: Content): JSX.Element {
     switch (t.tag) {
       case "h1":
         return <h1 key={t.id}>{t.content}</h1>;

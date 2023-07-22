@@ -1,20 +1,32 @@
 import { NextResponse } from "next/server";
-import prisma from "../../../lib/prisma";
 import HtmlPageCreateInputs from "../../../types/api_types/HtmlPageCreateInputs";
+import axios from "axios";
+import ApiSettings from "../apisettings";
+import { Content, CreateArticle } from "app/apitypes/article-types";
 
 export async function POST(request: Request) {
   const { htmlPage, source, languageCode } =
     (await request.json()) as HtmlPageCreateInputs;
 
   try {
-    const result = await prisma.reading.create({
-      data: {
-        title: htmlPage.pageTitle ?? "No Title",
-        source,
-        contents: { createMany: { data: htmlPage.elements } },
-        language: { connect: { code: languageCode } },
-      },
+    const contents: Content[] = [];
+    htmlPage.elements.map((el) => {
+      contents.push({ content: el.content, tag: el.tag }); //TODO: convert tag to string in API
     });
+
+    const articleToCreate: CreateArticle = {
+      languageId: languageCode, //TODO: convert languageId to language's short code in API
+      chapters: [{ title: "", contents: contents }],
+      authors: [],
+      source: source,
+      title: htmlPage.pageTitle ?? "No title",
+    };
+
+    const result = axios.post(
+      ApiSettings.baseUri + "/articles/CreateArticle",
+      articleToCreate
+    );
+
     return NextResponse.json(result);
   } catch (error: any) {
     console.log({ error });
