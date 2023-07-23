@@ -1,12 +1,12 @@
 "use client";
 
-import ImportedWebPages from "./home/WebPageListComp";
+import { Article } from "./apitypes/articles/article-types";
+import ReadingListComp from "./home/ReadingListComp";
 import Link from "next/link";
-import ReadingWAuthorAndLang from "types/ReadingWAuthorsAndLanguage";
 
 type PropsType = {
-  continueReadings: ReadingWAuthorAndLang[];
-  readings: ReadingWAuthorAndLang[];
+  continueReadings: Article[];
+  readings: Article[];
 };
 
 const Home = ({ continueReadings, readings }: PropsType) => {
@@ -18,12 +18,12 @@ const Home = ({ continueReadings, readings }: PropsType) => {
           href="/importcontent"
           className="mt-2 text-sm bg-gray-400 rounded-md p-2"
         >
-          Import Content
+          Import Reading Content
         </Link>
         {readings.length > 0 && (
           <>
-            <h3>Imported Web Pages</h3>
-            <ImportedWebPages readings={readings} />
+            <h3>Reading Items</h3>
+            <ReadingListComp readings={readings} />
           </>
         )}
       </main>

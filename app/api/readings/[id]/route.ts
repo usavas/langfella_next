@@ -1,11 +1,8 @@
-import ApiSettings from "app/api/apisettings";
-import axios from "axios";
+import { instance } from "app/api/api";
 
 export async function DELETE(request: Request, { params }: { params: any }) {
   try {
-    await axios.delete(
-      ApiSettings.baseUri + "/articles/deleteArticle/" + params.id
-    );
+    await instance.delete("/articles/deleteArticle/" + params.id);
     return new Response(null, { status: 200 });
   } catch (error: any) {
     console.error(error);

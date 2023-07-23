@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import HtmlPageCreateInputs from "../../../types/api_types/HtmlPageCreateInputs";
-import axios from "axios";
-import ApiSettings from "../apisettings";
-import { Content, CreateArticle } from "app/apitypes/article-types";
+import { Content } from "app/apitypes/articles/article-types";
+import { CreateArticle } from "app/apitypes/articles/create-article-types";
+import { instance } from "../api";
 
 export async function POST(request: Request) {
   const { htmlPage, source, languageCode } =
@@ -15,17 +15,14 @@ export async function POST(request: Request) {
     });
 
     const articleToCreate: CreateArticle = {
-      languageId: languageCode, //TODO: convert languageId to language's short code in API
+      languageCode: languageCode, //TODO: convert languageId to language's short code in API
       chapters: [{ title: "", contents: contents }],
       authors: [],
       source: source,
       title: htmlPage.pageTitle ?? "No title",
     };
 
-    const result = axios.post(
-      ApiSettings.baseUri + "/articles/CreateArticle",
-      articleToCreate
-    );
+    const result = instance.post("/articles/CreateArticle", articleToCreate);
 
     return NextResponse.json(result);
   } catch (error: any) {

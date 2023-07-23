@@ -1,6 +1,6 @@
 export interface Article {
   id: string;
-  languageId: number;
+  languageCode: string;
   title: string;
   source: string;
   authors: Author[];

@@ -1,5 +1,6 @@
 "use client";
 
+import { instance } from "app/api/api";
 //TODO need the following variables to save the word to Database
 /**
  * reading or html page id
@@ -11,7 +12,6 @@ import { useEffect, useState } from "react";
 
 type Props = {
   word: string;
-  readingId?: number;
   articleId?: string;
   readingLangCode: string;
   location: { x: number; y: number };
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const TranslationPopupComp = (props: Props) => {
-  const { close, word, articleId, location, readingId } = props;
+  const { close, word, articleId, location } = props;
 
   const [translation, setTranslation] = useState<string>("");
 
@@ -100,18 +100,7 @@ const TranslationPopupComp = (props: Props) => {
       return;
     }
 
-    let readingIds = {};
-    if (articleId) {
-      readingIds = { articleId };
-    } else if (readingId) {
-      readingIds = { readingId };
-    }
-
-    await fetch("/api/words", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(word),
-    });
+    await instance.post("/api/words", word);
 
     close();
   }

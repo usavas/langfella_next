@@ -1,5 +1,5 @@
 export interface CreateArticle {
-  languageId: number;
+  languageCode: string;
   title: string;
   source: string;
   authors: Author[];

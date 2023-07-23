@@ -1,7 +1,6 @@
 import { Word } from "app/apitypes/word-types";
 import WordComp from "./WordComp";
-import axios from "axios";
-import ApiSettings from "app/api/apisettings";
+import { instance } from "app/api/api";
 
 const Words = async () => {
   const words = await getWordList();
@@ -19,10 +18,7 @@ const Words = async () => {
 };
 
 async function getWordList(): Promise<Word[]> {
-  const words: Word[] = await axios.get(
-    ApiSettings.baseUri + "/words/GetWords"
-  );
-  return words;
+  return (await instance.get("/words/GetWords")).data;
 }
 
 export default Words;

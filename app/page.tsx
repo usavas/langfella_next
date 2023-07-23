@@ -1,6 +1,5 @@
-import axios from "axios";
 import HomePage from "./home-page";
-import ApiSettings from "./api/apisettings";
+import { instance } from "./api/api";
 import { Article } from "./apitypes/articles/article-types";
 
 export default async function Page() {
@@ -14,11 +13,9 @@ export default async function Page() {
 }
 
 async function getReadingContents() {
-  const readings: Article[] = await axios.get(
-    ApiSettings.baseUri + "/Articles/GetArticles"
-  );
+  const result = await instance.get("/Articles/GetArticles");
   //TODO populate this with readings the user started previously
   const continueReadings: Article[] = [];
 
-  return { readings, continueReadings };
+  return { readings: result.data, continueReadings };
 }
