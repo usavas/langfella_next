@@ -1,7 +1,7 @@
 "use client";
 
-import { Article } from "./apitypes/articles/article-types";
-import ReadingListComp from "./home/ReadingListComp";
+import { Article } from "../apitypes/articles/article-types";
+import ReadingListComp from "./ReadingListComp";
 import Link from "next/link";
 
 type PropsType = {
@@ -15,7 +15,7 @@ const Home = ({ continueReadings, readings }: PropsType) => {
       <main className="">
         <h1>LangFella</h1>
         <Link
-          href="/importcontent"
+          href="/home/importcontent"
           className="mt-2 text-sm bg-gray-400 rounded-md p-2"
         >
           Import Reading Content

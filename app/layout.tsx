@@ -22,7 +22,7 @@ export default function MyApp({ children }: { children: React.ReactNode }) {
         />
         <meta name="description" content="Description" />
         <meta name="keywords" content="Keywords" />
-        <title>Next.js PWA Example</title>
+        <title>LangFella App</title>
 
         <link rel="manifest" href="/manifest.json" />
         <link

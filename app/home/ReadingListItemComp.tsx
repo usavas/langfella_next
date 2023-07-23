@@ -21,6 +21,9 @@ function ReadingListItemComp({ reading: reading }: PropTypes) {
           <span className="text-sm font-light block">
             {reading.uniqueWordCount} unique words
           </span>
+          <span className="text-sm font-light block">
+            {reading.chapters.length} chapters
+          </span>
         </div>
         <DeleteButton deleteApi={`api/htmlpages/${reading.id}`} />
       </div>

@@ -1,4 +1,4 @@
-import HomePage from "./home-page";
+import HomePage from "./home/page";
 import { instance } from "./api/api";
 import { Article } from "./apitypes/articles/article-types";
 
