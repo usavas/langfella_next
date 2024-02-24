@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import TranslationPopupComp from "app/components/TranslationPopupComp";
-import { Article, Content } from "app/apitypes/articles/article-types";
+import { Chapter } from "app/apitypes/articles/article-types";
 
 type Props = {
-  reading: Article;
+  readingId: string;
+  languageCode: string;
+  chapter: Chapter;
 };
 
 type WordPopupSettings = {
@@ -14,7 +16,7 @@ type WordPopupSettings = {
   location?: { x: number; y: number };
 };
 
-function ReadingComp({ reading }: Props) {
+function ChapterComponent(props: Props) {
   const [wordPopupSetting, setWordPopupSetting] = useState<WordPopupSettings>({
     word: "",
     shown: false,
@@ -22,17 +24,6 @@ function ReadingComp({ reading }: Props) {
   });
 
   let prevSelection: string = "";
-
-  console.log(reading.chapters[0].contents.map((c) => c.content));
-
-  const elems: JSX.Element[] = [];
-  reading.chapters[0].contents.forEach((c) =>
-    elems.push(
-      <p className="word" key={c.id}>
-        {c.content}
-      </p>
-    )
-  );
 
   return (
     <div>
@@ -44,20 +35,18 @@ function ReadingComp({ reading }: Props) {
         {wordPopupSetting.shown && (
           <TranslationPopupComp
             word={wordPopupSetting.word}
-            articleId={reading.id}
-            readingLangCode={reading.languageCode.toString()}
+            articleId={props.readingId}
+            readingLangCode={props.languageCode}
             location={wordPopupSetting.location ?? { x: 0, y: 0 }}
             close={handleClose}
           ></TranslationPopupComp>
         )}
-        <h1>{reading.title}</h1>
-        {/* {firstImgComp && firstImgComp} */}
-        {elems}
-        <footer key={reading.id}>
-          <p className="text-sm text-gray-400 italic">
-            Page Source: {reading.source}
+        <h2>{props.chapter.title}</h2>
+        {props.chapter.contents.map((c) => (
+          <p className="word" key={c.id}>
+            {c.content}
           </p>
-        </footer>
+        ))}
       </div>
     </div>
   );
@@ -170,4 +159,4 @@ function ReadingComp({ reading }: Props) {
   }
 }
 
-export default ReadingComp;
+export default ChapterComponent;
